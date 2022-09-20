@@ -1,0 +1,22 @@
+.jumbotron label {
+  font-size: 12px;
+}
+
+.reg-icon {
+  color: var(--color-main);
+  font-weight: bold;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4) !important;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  color: #fff;
+  background-color: var(--color-main);
+}
+
+.prj-name {
+  font-weight: bold;
+  color: var(--color-main);
+}
+

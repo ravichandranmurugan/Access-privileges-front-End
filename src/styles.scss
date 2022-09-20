@@ -1,0 +1,122 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
+@import "../node_modules/angular-notifier/styles.scss";
+@import "./app/shared/css/shared.scss";
+body {
+  margin: 0;
+  padding: 0;
+font-family: 'Roboto', sans-serif;;
+  // background:url('./assets/BgImage.jpg');
+}
+.text-align-center{
+    text-align: center;
+}
+.flex-box {
+  display: flex;
+}
+.justify-flex-center {
+  justify-content: center;
+}
+.flex-direction-column{
+    flex-direction: column;
+}
+.align-items-center{
+  align-items: center;
+}
+.flex-gap-5px {
+    gap:5px;
+  }
+.flex-gap-20px {
+  gap: 20px;
+}
+.width-50p {
+  width: 50%;
+}
+.height-100p {
+  height: 100%;
+}
+.color-red {
+  color: red;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.bg-color-color-main {
+  background-color: var(--color-main) !important;
+}
+.bg-color-color-main-dark-1 {
+  background-color: var(--color-main-dark-1) !important;
+}
+.bg-color-color-main-light {
+  background-color: var(--color-main-light) !important;
+}
+
+.text-color-color-main {
+  color: var(--color-main) !important;
+}
+.text-color-color-main-dark-1 {
+  color: var(--color-main-dark-1) !important;
+}
+.botton-shadow {
+  box-shadow: 0px 8px 15px var(--color-main-dark-1);
+}
+.box-shadow {
+  box-shadow: 0px 8px 1px black;
+}
+.custom-input {
+  position: relative !important;
+  i{
+    border-radius: 7px;
+    font-size: 1.5rem;
+    background: var(--color-main-light);
+    padding: 0.5rem;
+    color: #868e96;
+  }
+}
+.custom-input span {
+  position: absolute;
+  left: 5px;
+  top: -7px;
+  font-weight: 700;
+}
+
+.width-80p{
+  width: 80%;
+}
+.width-30p{
+  width: 30%;
+}
+.height-36p{
+  height: 36%;
+}
+.mat-tab-body-content{
+  overflow: hidden !important;
+}
+.grid{
+  display: grid;
+}
+.grid-col-2{
+  grid-template-columns: 1fr 1fr;
+}
+.grid-col-2-20p-1fr{
+  grid-template-columns: 20% 1fr;
+}
+
+app-root {
+  display: block;
+  height: 100vh !important;
+  min-height: 100vh !important;
+}
+.text-shadow{
+  text-shadow: -7px -1px 5px #114133;
+}
+.text-capitalize{
+  text-transform: capitalize;
+}
