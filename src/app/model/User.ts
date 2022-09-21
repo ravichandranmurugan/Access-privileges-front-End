@@ -13,7 +13,7 @@ export class User{
      public active:boolean;
      public notLocked:boolean;
     public userRole:UserRole;
-     
+     public userRoleId:string;
      constructor(){
         this.id = 0;
         this.userId = '';
@@ -27,5 +27,6 @@ export class User{
         this.active = false;
         this.notLocked = false;
       this.userRole = new UserRole();
+      this.userRoleId = "";
      }
 }

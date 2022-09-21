@@ -556,6 +556,7 @@
                 >***
               </span>
             </div>
+            <input [hidden]="true" name="userRoleId" ngModel>
             <div class="custom-input">
               <div class="form-group mb-2">
                 <label for="userName">User Name</label>
@@ -813,32 +814,24 @@
               >****
             </span>
           </div>
+          <input name="userRoleId" ngModel [hidden]="true">
           <div class="form-group mb-2 col-sm-10">
             <label for="authority"
               >Role <small ></small
             ></label>
             <select
-              name="role"
+            (change)="get($event.target)"
+              name="userRole"
               required
-              [(ngModel)]="editUser.userRole"
+              [(ngModel)]="editUser.userRole.roleDescription"
              
               class="form-control"
             >
-              <option *ngFor="let role of userRoles" value="{{role}}">{{role.roleDescription}}</option>
+              <option *ngFor="let role of userRoles" [ngValue]="role.roleDescription">{{role.roleDescription}}</option>
               
             </select>
           </div>
-          <div class="form-group" >
-            <label for="authority">Role</label>
-            <input
-              type="text"
-              name="role"
-              required
-              ngModel="USER"
-              readonly
-              class="form-control"
-            />
-          </div>
+          
           <div class="flex-box">
             <div
               class="flex-box flex-direction-column flex-gap-5px file-upload-icon-input"

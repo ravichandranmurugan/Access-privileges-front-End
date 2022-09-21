@@ -145,14 +145,16 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
     debugger;
     console.log(userForm.value);
     userForm.value.userRole =  this.userRoles.find(x=>x.roleDescription == userForm.value.userRole);
+    userForm.value.userRoleId = userForm.value.userRole.roleId;
     const formData = this.userService.createUserFormData(
       ' ',
-      userForm.value,
+      userForm.value ,
       this.profileImage
     );
     this.subscription.push(
       this.userService.addUser(formData).subscribe(
         (response: User | any) => {
+          debugger
           this.clickButton('closenewuser');
 
           this.getUsers(false);
@@ -223,9 +225,11 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
     debugger;
     this.showLoading = true;
     console.log(userForm.value);
+    userForm.value.userRole =  this.userRoles.find(x=>x.roleDescription == userForm.value.userRole);
+    userForm.value.userRoleId = userForm.value.userRole.roleId;
     const formData = this.userService.createUserFormData(
       this.currentUserName,
-      this.editUser,
+      userForm.value,
       this.profileImage
     );
     this.subscription.push(
@@ -234,9 +238,9 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
           this.clickButton('closeedituser');
           this.showLoading = false;
           this.getUsers(false);
-          this.fileName = '';
+        //  this.fileName = '';
 
-          //userForm.reset();
+          userForm.reset();
           debugger;
           this.editUser = response;
           this.refreshing = false;
