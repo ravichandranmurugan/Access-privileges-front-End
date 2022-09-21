@@ -12,7 +12,7 @@ export class User{
      public profileImage:string;
      public active:boolean;
      public notLocked:boolean;
-    public userRole!:UserRole;
+    public userRole:UserRole;
      
      constructor(){
         this.id = 0;
@@ -26,6 +26,6 @@ export class User{
         this.profileImage = '';
         this.active = false;
         this.notLocked = false;
-      
+      this.userRole = new UserRole();
      }
 }

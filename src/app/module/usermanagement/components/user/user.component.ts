@@ -144,6 +144,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
   public onAddNewUser(userForm: NgForm) {
     debugger;
     console.log(userForm.value);
+    userForm.value.userRole =  this.userRoles.find(x=>x.roleDescription == userForm.value.userRole);
     const formData = this.userService.createUserFormData(
       ' ',
       userForm.value,

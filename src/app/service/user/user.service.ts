@@ -68,7 +68,7 @@ export class UserService {
     formData.append('lastName', user.lastName);
     formData.append('userName', user.userName);
     formData.append('email', user.email);
-    formData.append('role',JSON.stringify(user.userRole));
+    formData.append('userRole',JSON.stringify(user.userRole));
     formData.append('profileImage', profileImage);
     formData.append('isActive', JSON.stringify(user.active));
     formData.append('isNotLocked', JSON.stringify(user.notLocked));
