@@ -254,6 +254,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
             NotificationType.ERROR,
             errorResponse.error.message
           );
+          this.showLoading = false;
           this.refreshing = false;
         }
       )

@@ -141,7 +141,8 @@
                   </table>
                 </div>
               </mat-tab>
-              <mat-tab label="Settings">
+              <!-- comment profile and settings -->
+              <!-- <mat-tab label="Settings">
                 <div class="row">
                   <div class="col-md-12">
                     <form
@@ -180,8 +181,9 @@
                     </form>
                   </div>
                 </div>
-              </mat-tab>
-              <mat-tab label="profile">
+              </mat-tab> -->
+              <!-- <mat-tab label="profile">
+
                 <div class="grid grid-col-2 mt-2">
                   <div>
                     <form
@@ -399,7 +401,7 @@
                     <!-- <span>Authorities</span>
                     <span *ngFor="let auth of editUser.userRole.authorities">{{
                       auth
-                    }}</span> -->
+                    }}</span> 
                     <i
                       class="fa fa-sign-out color-red"
                       aria-hidden="true"
@@ -407,7 +409,7 @@
                     ></i>
                   </div>
                 </div>
-              </mat-tab>
+              </mat-tab> -->
             </mat-tab-group>
           </div>
         </div>
@@ -496,7 +498,7 @@
     <div >
       <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">
-          {{ selectedUser.firstName + " " + selectedUser.lastName }}
+          New User
         </h4>
         <button
           type="button"
@@ -626,7 +628,7 @@
                   type="file"
                   name="profileImage"
                   ngModel
-                  class="custom-file-input"
+                  class="custom-file-input display-none"
                   (change)="onProfileImageChange($event)"
                   [hidden]="true"
                   accept="image/*"
@@ -638,12 +640,13 @@
                 <img
                   ngDefaultControl
                   height="150"
+                  name="profileImage"
                   width="150"
                   [ngModelOptions]="{ standalone: true }"
                   [src]="imagePath"
                   [(ngModel)]="imagePath"
-                  class="rounded-circle img-fluid img-thumbnail"
-                  alt=""
+                  class="rounded-circle img-fluid img-thumbnail display-none"
+                  alt="select image"
                 />
               </div>
             </div>
