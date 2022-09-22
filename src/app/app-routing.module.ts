@@ -14,7 +14,27 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
-  
+  {
+    path: 'dash',
+    loadChildren: () =>
+      import('./module/dash/dash.module').then(
+        (m) => m.DashModule
+      ),
+  },
+  {
+    path: 'module',
+    loadChildren: () =>
+      import('./module/module-access/module-access.module').then(
+        (m) => m.ModuleAccessModule
+      ),
+  },
+  {
+    path: 'company',
+    loadChildren: () =>
+      import('./module/company/company.module').then(
+        (m) => m.CompanyModule
+      ),
+  },
   {
     path: 'user',
     component: LayoutBottomComponent,
@@ -26,6 +46,7 @@ const routes: Routes = [
             (m) => m.UsermanagementModule
           ),
       },
+      
     ]
   },
  

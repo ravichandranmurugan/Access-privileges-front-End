@@ -1,0 +1,70 @@
+<div class="height-100p">
+  <div
+    class="flex-box justify-content-center flex-gap-5px height-100p align-items-center"
+  >
+    <div class="icon-bar flex-box box-shadow-type2 align-items-center space-between">
+      <a
+        matTooltip="HOME"
+        matTooltipPosition="below"
+        [ngClass]="{
+          active: activeIcon === 'home',
+          'fa-2x': activehover === 'home'
+        }"
+        (click)="iconCilcked('home')"
+        (mouseover)="iconhover('home')"
+        (mouseout)="iconOut()"
+        ><i class="fa fa-1x fa-home wow fadeIn"></i
+      ></a>
+      <a
+      
+        matTooltip="SEARCH"
+        matTooltipPosition="below"
+        [ngClass]="{
+          active: activeIcon === 'search',
+          'fa-2x': activehover === 'search'
+        }"
+        (click)="iconCilcked('search')"
+        (mouseover)="iconhover('search')"
+        (mouseout)="iconOut()"
+        ><i class="fa fa-1x fa-user wow fadeIn"></i
+      ></a>
+      <a
+        matTooltip="MESSAGE"
+        matTooltipPosition="below"
+        [ngClass]="{
+          active: activeIcon === 'message',
+          'fa-2x': activehover === 'message'
+        }"
+        (click)="iconCilcked('message')"
+        (mouseover)="iconhover('message')"
+        (mouseout)="iconOut()"
+        ><i class="fa fa-1x fa-envelope wow fadeIn"></i
+      ></a>
+      <a
+        matTooltip="WORLD"
+        matTooltipPosition="below"
+        [ngClass]="{
+          active: activeIcon === 'world',
+          'fa-2x': activehover === 'world'
+        }"
+        (click)="iconCilcked('world')"
+        (mouseover)="iconhover('world')"
+        (mouseout)="iconOut()"
+        ><i class="fa fa-1x fa-globe wow fadeIn"></i
+      ></a>
+      <a
+        matTooltip="DELETE"
+        matTooltipPosition="below"
+        [ngClass]="{
+          active: activeIcon === 'delete',
+
+          'fa-2x': activehover === 'delete'
+        }"
+        (mouseout)="iconOut()"
+        (mouseover)="iconhover('delete')"
+        (click)="iconCilcked('delete')"
+        ><i class="fa fa-1x fa-trash wow fadeIn"></i
+      ></a>
+    </div>
+  </div>
+</div>

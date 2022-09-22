@@ -526,14 +526,14 @@
                     name="firstName"
                     required
                     ngModel
-                    #firstNameInput="ngModel"
+                    #newFirstNameInput="ngModel"
                     placeholder="first Name"
                   />
                 </div>
               </div>
               <span
                 class="color-red"
-                *ngIf="firstNameInput.invalid && firstNameInput.touched"
+                *ngIf="newFirstNameInput.invalid && newFirstNameInput.touched"
                 >***
               </span>
             </div>
@@ -547,14 +547,14 @@
                     name="lastName"
                     required
                     ngModel
-                    #lastNameInput="ngModel"
+                    #newLastNameInput="ngModel"
                     placeholder="Last Name"
                   />
                 </div>
               </div>
               <span
                 class="color-red"
-                *ngIf="lastNameInput.invalid && lastNameInput.touched"
+                *ngIf="newLastNameInput.invalid && newLastNameInput.touched"
                 >***
               </span>
             </div>
@@ -569,14 +569,14 @@
                     class="form-control"
                     required
                     ngModel
-                    #usernameInput="ngModel"
+                    #newUsernameInput="ngModel"
                     placeholder="User Name"
                   />
                 </div>
               </div>
               <span
                 class="color-red"
-                *ngIf="usernameInput.invalid && usernameInput.touched"
+                *ngIf="newUsernameInput.invalid && newUsernameInput.touched"
                 >****
               </span>
             </div>
@@ -590,14 +590,14 @@
                     required
                     ngModel
                     name="email"
-                    #emailInput="ngModel"
+                    #newEmailInput="ngModel"
                     placeholder="email"
                   />
                 </div>
               </div>
               <span
                 class="color-red"
-                *ngIf="emailInput.invalid && emailInput.touched"
+                *ngIf="newEmailInput.invalid && newEmailInput.touched"
                 >****
               </span>
             </div>
@@ -740,14 +740,14 @@
                   required
                  
                   [(ngModel)]="editUser.firstName"
-                  #firstNameInput="ngModel"
+                  #editFirstNameInput="ngModel"
                   placeholder="first Name"
                 />
               </div>
             </div>
             <span
               class="color-red"
-              *ngIf="firstNameInput.invalid && firstNameInput.touched"
+              *ngIf="editFirstNameInput.invalid && editFirstNameInput.touched"
               >***
             </span>
           </div>
@@ -762,14 +762,14 @@
                   required
                   
                   [(ngModel)]="editUser.lastName"
-                  #lastNameInput="ngModel"
+                  #editLastNameInput="ngModel"
                   placeholder="Last Name"
                 />
               </div>
             </div>
             <span
               class="color-red"
-              *ngIf="lastNameInput.invalid && lastNameInput.touched"
+              *ngIf="editLastNameInput.invalid && editLastNameInput.touched"
               >***
             </span>
           </div>
@@ -784,14 +784,14 @@
                   required
                   
                   [(ngModel)]="editUser.userName"
-                  #usernameInput="ngModel"
+                  #editUsernameInput="ngModel"
                   placeholder="User Name"
                 />
               </div>
             </div>
             <span
               class="color-red"
-              *ngIf="usernameInput.invalid && usernameInput.touched"
+              *ngIf="editUsernameInput.invalid && editUsernameInput.touched"
               >****
             </span>
           </div>
@@ -806,14 +806,14 @@
                   [(ngModel)]="editUser.email"
                   name="email"
                   
-                  #emailInput="ngModel"
+                  #newEmailInput="ngModel"
                   placeholder="email"
                 />
               </div>
             </div>
             <span
               class="color-red"
-              *ngIf="emailInput.invalid && emailInput.touched"
+              *ngIf="newEmailInput.invalid && newEmailInput.touched"
               >****
             </span>
           </div>
