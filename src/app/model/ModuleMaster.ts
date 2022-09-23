@@ -10,11 +10,11 @@ export class ModuleMaster {
 
   public moduleType: string;
 
-  public isDeleted: boolean;
+  public deleted: boolean;
 
-  public isActive: boolean;
+  public active: boolean;
 
-  public companyMaster!: CompanyMaster;
+  
 
   public moduleGroupMaster: ModuleGroupMaster[] ;
   constructor() {
@@ -22,8 +22,8 @@ export class ModuleMaster {
     this.moduleDescription = '';
     this.modulePath = '';
     this.moduleType = '';
-    this.isActive = true;
-    this.isDeleted = false;
+    this.active = true;
+    this.deleted = false;
     this.moduleGroupMaster = [];
   }
 }

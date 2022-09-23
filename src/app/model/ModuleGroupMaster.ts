@@ -1,3 +1,5 @@
+import { PrivilegedAccess } from './PrivilegedAccess';
+
 export class ModuleGroupMaster {
   public moduleGroupId: string;
 
@@ -7,15 +9,17 @@ export class ModuleGroupMaster {
 
   public moduleGroupType: string;
 
-  public isDeleted: boolean;
+  public deleted: boolean;
 
-  public isActive: boolean;
+  public active: boolean;
+  public privilegedAccess: PrivilegedAccess[] = [];
+
   constructor() {
     this.moduleGroupId = '';
     this.moduleGroupDescription = '';
     this.moduleGroupPath = '';
     this.moduleGroupType = '';
-    this.isActive = true;
-    this.isDeleted = false;
+    this.active = true;
+    this.deleted = false;
   }
 }

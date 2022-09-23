@@ -1,3 +1,5 @@
+import { ModuleMaster } from "./ModuleMaster";
+
 export class CompanyMaster {
   public companyId: String;
 
@@ -13,8 +15,9 @@ export class CompanyMaster {
 
   public isDeleted: boolean;
 
-  private isActive: boolean;
+  public isActive: boolean;
 
+  public moduleMaster:ModuleMaster[] = []
   constructor() {
     this.companyId = '';
 

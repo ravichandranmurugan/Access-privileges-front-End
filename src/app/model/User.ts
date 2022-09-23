@@ -1,3 +1,4 @@
+import { CompanyMaster } from "./CompanyMaster";
 import { UserRole } from "./UserRole";
 
 export class User{
@@ -14,6 +15,7 @@ export class User{
      public notLocked:boolean;
     public userRole:UserRole;
      public userRoleId:string;
+     public companyMaster!:CompanyMaster
      constructor(){
         this.id = 0;
         this.userId = '';

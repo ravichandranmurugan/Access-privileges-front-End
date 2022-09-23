@@ -9,7 +9,7 @@ import { NotificationService } from 'src/app/core/service/notification.service';
 import { ModuleGroupMaster } from 'src/app/model/ModuleGroupMaster';
 import { ModuleMaster } from 'src/app/model/ModuleMaster';
 import { ModuleMasterService } from 'src/app/service/Module/module-master.service';
-
+import {AuthenticationService} from '../../../../core/service/authentication.service'
 @Component({
   selector: 'app-moduleaccess',
   templateUrl: './moduleaccess.component.html',
@@ -26,10 +26,13 @@ export class ModuleaccessComponent implements OnInit {
   constructor(
     private moduleService: ModuleMasterService,
     private notificationService: NotificationService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authenticationService:AuthenticationService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAllModuleMaster(true);
+  }
 
   /**serach module */
 
@@ -50,7 +53,7 @@ export class ModuleaccessComponent implements OnInit {
     }
     this.modules = result;
     if (result.length == 0 || !searchTerm) {
-      this.modules = this.moduleService.getModuleMasters('');
+      this.modules = this.moduleService.getModuleMasters();
     }
   }
 
@@ -58,7 +61,7 @@ export class ModuleaccessComponent implements OnInit {
   getAllModuleMaster(showNotification: boolean) {
     this.refreshing = true;
     this.subscription.push(
-      this.moduleService.getModuleMasters('').subscribe(
+      this.moduleService.getModuleMasters().subscribe(
         (response: ModuleMaster[] | any) => {
           debugger;
           this.modules = response;
@@ -84,14 +87,14 @@ export class ModuleaccessComponent implements OnInit {
   onAddNewModule(moduleForm: NgForm) {
     debugger;
     this.refreshing = true;
-    this.newModuleMaster
     const formData = this.moduleService.createUserFormData(
       '',
       moduleForm.value
     );
     this.subscription.push(
-      this.moduleService.addModuleMaster(formData).subscribe(
+      this.moduleService.addModuleMaster(this.newModuleMaster).subscribe(
         (response: ModuleMaster | any) => {
+          debugger
           this.refreshing = false;
           if (true) {
             this.sendNotification(
@@ -111,14 +114,14 @@ export class ModuleaccessComponent implements OnInit {
     );
   }
 /**on remove Sub module */
-onRemoveSubModule(value:number){
-  this.newModuleMaster.moduleGroupMaster.splice(value,1);
+onRemoveSubModule(value:number,obj:ModuleMaster){
+  obj.moduleGroupMaster.splice(value,1);
 }
 /***Add sub module */
-addSubModule(){
+addSubModule(obj:ModuleMaster){
   debugger
   const newModuleGroupMaster = new ModuleGroupMaster();
-  this.newModuleMaster.moduleGroupMaster.unshift(newModuleGroupMaster);
+  obj.moduleGroupMaster.unshift(newModuleGroupMaster);
 }
   //**on edit modal */
   onEditModule(value: ModuleMaster) {
@@ -127,13 +130,16 @@ addSubModule(){
   }
 
   onEditModuleSubmit(moduleForm: NgForm) {
-    const formData = this.moduleService.createUserFormData(
-      this.currentModuleDescription,
-      moduleForm.value
-    );
+    // const formData = this.moduleService.createUserFormData(
+    //   this.currentModuleDescription,
+    //   moduleForm.value
+    // );
+    debugger
+    this.editModuleMaster;
     this.subscription.push(
-      this.moduleService.updateModuleMaster(formData).subscribe(
+      this.moduleService.updateModuleMaster(this.editModuleMaster,this.currentModuleDescription).subscribe(
         (response: ModuleMaster | any) => {
+          debugger
           this.getAllModuleMaster(true);
           this.refreshing = false;
           if (true) {

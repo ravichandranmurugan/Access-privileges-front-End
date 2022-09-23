@@ -18,17 +18,17 @@ export class ModuleMasterService {
   private host: string = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  public getModuleMasters(companyId:string): Observable<ModuleMaster[] | HttpErrorResponse> {
-    return this.http.get<ModuleMaster[]>(`${this.host}/module/list/${companyId}`);
+  public getModuleMasters(): Observable<ModuleMaster[] | HttpErrorResponse> {
+    return this.http.get<ModuleMaster[]>(`${this.host}/module/list/`);
   }
 
-  public addModuleMaster(formData: FormData): Observable<ModuleMaster | HttpErrorResponse> {
+  public addModuleMaster(formData: FormData | ModuleMaster): Observable<ModuleMaster | HttpErrorResponse> {
     debugger
-    return this.http.post<ModuleMaster>(`${this.host}/module/add`, formData);
+    return this.http.post<ModuleMaster>(`${this.host}/module/register`, formData);
   }
 
-  public updateModuleMaster(formData: FormData): Observable<ModuleMaster | HttpErrorResponse> {
-    return this.http.post<ModuleMaster>(`${this.host}/module/update`, formData);
+  public updateModuleMaster(formData: FormData | ModuleMaster,currentModuleDescription:string): Observable<ModuleMaster | HttpErrorResponse> {
+    return this.http.post<ModuleMaster>(`${this.host}/module/update/${currentModuleDescription}`, formData);
   }
 
  
@@ -53,10 +53,10 @@ export class ModuleMasterService {
     formData.append('moduleDescription', moduleMaster.moduleDescription);
     formData.append('modulePath',moduleMaster.modulePath);
     formData.append('moduleType', moduleMaster.moduleType);
-    formData.append('isActive', JSON.stringify(moduleMaster.isActive));
-    formData.append('isDeleted',JSON.stringify(moduleMaster.isDeleted))
+    formData.append('isActive', JSON.stringify(moduleMaster.active));
+    formData.append('isDeleted',JSON.stringify(moduleMaster.deleted))
     formData.append('moduleGroupMaster', JSON.stringify(moduleMaster.moduleGroupMaster));
-    formData.append('companyMaster', JSON.stringify(moduleMaster.companyMaster));
+    
 
     return formData;
   }
