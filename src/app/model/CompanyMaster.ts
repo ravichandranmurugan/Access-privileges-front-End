@@ -1,21 +1,21 @@
 import { ModuleMaster } from "./ModuleMaster";
 
 export class CompanyMaster {
-  public companyId: String;
+  public companyId: string;
 
-  public companyName: String;
+  public companyName: string;
 
-  public contactPerson: String;
+  public contactPerson: string;
 
-  public companyEmail: String;
+  public companyEmail: string;
 
-  public companyAddress: String;
+  public companyAddress: string;
 
-  public companyLogo: String;
+  public companyLogo: string;
 
-  public isDeleted: boolean;
+  public deleted: boolean;
 
-  public isActive: boolean;
+  public active: boolean;
 
   public moduleMaster:ModuleMaster[] = []
   constructor() {
@@ -31,8 +31,8 @@ export class CompanyMaster {
 
     this.companyLogo = '';
 
-    this.isDeleted = true;
+    this.deleted = true;
 
-    this.isActive = true;
+    this.active = true;
   }
 }

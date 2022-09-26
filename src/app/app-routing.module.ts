@@ -36,6 +36,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'privilegesAccess',
+    loadChildren: () =>
+      import('./module/privileges-access/privileges-access.module').then(
+        (m) => m.PrivilegesAccessModule
+      ),
+  },
+  {
     path: 'user',
     component: LayoutBottomComponent,
     children: [

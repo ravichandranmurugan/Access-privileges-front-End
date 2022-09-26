@@ -45,6 +45,10 @@ export class UserService {
   public deleteUser(userId: string): Observable<CustomHttpResponse | HttpErrorResponse> {
     return this.http.delete<CustomHttpResponse>(`${this.host}/user/delete/${userId}`);
   }
+  public findUseById(userId: string): Observable<User | HttpErrorResponse> {
+    return this.http.get<User>(`${this.host}/user/find/${userId}`);
+  }
+
 
   public addUsersToLocalCache(users: User[]): void {
     localStorage.setItem('users', JSON.stringify(users));

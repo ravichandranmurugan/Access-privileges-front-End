@@ -83,6 +83,7 @@ export class ModuleaccessComponent implements OnInit {
       )
     );
   }
+  
   /**on add new Module */
   onAddNewModule(moduleForm: NgForm) {
     debugger;
@@ -95,6 +96,7 @@ export class ModuleaccessComponent implements OnInit {
       this.moduleService.addModuleMaster(this.newModuleMaster).subscribe(
         (response: ModuleMaster | any) => {
           debugger
+          
           this.refreshing = false;
           if (true) {
             this.sendNotification(

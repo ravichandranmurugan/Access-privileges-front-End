@@ -1,0 +1,260 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="card-group mb-0">
+        <div class="card p-2">
+          <div class="card-header text-align-center">
+            <h2>Privileges Access</h2>
+          </div>
+          <div class="card-body">
+            <!-- Navigatiom-->
+            <div class="grid grid-col-2">
+              <div
+                class="flex-box justify-content-center flex-direction-column align-items-center"
+              >
+                <h4>{{ title }}</h4>
+                <form
+                  ngForm
+                  class="form-horizontal width-80p"
+                  #userRoleForm="ngForm"
+                  (ngSubmit)="onAddRole(userRoleForm, title)"
+                >
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="custom-input">
+                        <div class="form-group mb-2">
+                          <label for="firstName">Company Name</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="companyName"
+                              required
+                              [(ngModel)]="roleDescription"
+                              #newCompanyNameInput="ngModel"
+                              placeholder="Company Name"
+                            />
+                          </div>
+                        </div>
+                        <span
+                          class="color-red"
+                          *ngIf="
+                            newCompanyNameInput.invalid &&
+                            newCompanyNameInput.touched
+                          "
+                          >***
+                        </span>
+                      </div>
+                      <div class="custom-input">
+                        <div class="form-group mb-2">
+                          <label for="lastName">Contact Person</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="contactPerson"
+                              required
+                              [(ngModel)]="roleLimit"
+                              #newContactPersonInput="ngModel"
+                              placeholder="Contact Person"
+                            />
+                          </div>
+                        </div>
+                        <span
+                          class="color-red"
+                          *ngIf="
+                            newContactPersonInput.invalid &&
+                            newContactPersonInput.touched
+                          "
+                          >***
+                        </span>
+                      </div>
+
+                      <fieldset class="form-group">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input
+                              type="checkbox"
+                              name="active"
+                              [(ngModel)]="active"
+                              class="form-check-input"
+                            />
+                            Active
+                          </label>
+                        </div>
+                        <div class="form-check disabled">
+                          <label class="form-check-label">
+                            <input
+                              type="checkbox"
+                              name="deleted"
+                              [(ngModel)]="deleted"
+                              class="form-check-input"
+                            />
+                            isDeleted
+                          </label>
+                        </div>
+                      </fieldset>
+                      <div class="col-md-12 mt-4">
+                        <mat-accordion>
+                          <div
+                            class="mt-2"
+                            *ngFor="
+                              let privilegesAcess of userRole.companyMaster
+                                .moduleMaster
+                            "
+                          >
+                            <mat-expansion-panel hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                  <div
+                                    class="flex-box justify-flex-space-between width-100p"
+                                  >
+                                    <span>{{
+                                      privilegesAcess.moduleDescription
+                                    }}</span>
+                                    <input
+                                      type="checkbox"
+                                    
+                                     
+                                      class="form-check-input"
+                                    />
+                                  </div>
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+                              <div>
+                                <table class="table table-hover">
+                                  <thead class="table-borderless">
+                                    <tr class="text-center">
+                                      <th>Sub Module</th>
+                                      <th>Add</th>
+                                      <th>Edit</th>
+                                      <th>View</th>
+                                      <th>Delete</th>
+                                      <th>Prints</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody
+                                    *ngFor="
+                                      let app of privilegesAccess
+                                    "
+                                  >
+                                 <tr *ngIf="app.findModuleId  == privilegesAcess.moduleId" class="text-align-center">
+                                    <th>{{ app.description }}</th>
+                                    <th>
+                                      <input
+                                        type="checkbox"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        [(ngModel)]="
+                                          app.adds
+                                        "
+                                        (click)="
+                                          selectSubModule(app, $event, 'adds')
+                                        "
+                                        class="form-check-input"
+                                      />
+                                    </th>
+                                    <th>
+                                      <input
+                                        type="checkbox"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        [(ngModel)]="
+                                          app.edits
+                                        "
+                                        (click)="
+                                          selectSubModule(app, $event, 'edits')
+                                        "
+                                        class="form-check-input"
+                                      />
+                                    </th>
+                                    <th>
+                                      <input
+                                        type="checkbox"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        [(ngModel)]="
+                                          app.views
+                                        "
+                                        (click)="
+                                          selectSubModule(app, $event, 'views')
+                                        "
+                                        class="form-check-input"
+                                      />
+                                    </th>
+                                    <th>
+                                      <input
+                                        type="checkbox"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        [(ngModel)]="
+                                          app.deletes
+                                        "
+                                        (click)="
+                                          selectSubModule(
+                                            app,
+                                            $event,
+                                            'deletes'
+                                          )
+                                        "
+                                        class="form-check-input"
+                                      />
+                                    </th>
+
+                                    <th>
+                                      <input
+                                        type="checkbox"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        [(ngModel)]="
+                                          app.prints
+                                        "
+                                        (click)="
+                                          selectSubModule(app, $event, 'prints')
+                                        "
+                                        class="form-check-input"
+                                      />
+                                    </th>
+                                 </tr>
+                                  </tbody>
+                                  <button
+                                    [hidden]="true"
+                                    type="button"
+                                    id="openUserInfo"
+                                    data-toggle="modal"
+                                    data-target="viewUserModal"
+                                  ></button>
+                                  <button
+                                    [hidden]="true"
+                                    type="button"
+                                    id="openUseredit"
+                                    data-toggle="modal"
+                                    data-target="editUserModal"
+                                  ></button>
+                                </table>
+                              </div>
+                            </mat-expansion-panel>
+                          </div>
+                        </mat-accordion>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    [disabled]="userRoleForm.invalid || showLoading"
+                    name="button"
+                    class="btn bg-color-color-main border-none botton-shadow btn-primary active mt-5"
+                  >
+                    <i *ngIf="showLoading" class="fa fa-spinner"></i
+                    >&nbsp;&nbsp;
+                    <span *ngIf="showLoading">Loading.....</span>
+                    <span *ngIf="!showLoading">Save !</span>
+                  </button>
+                </form>
+              </div>
+              <div>
+                <h4 class="flex-box justify-content-center">List of Roles</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

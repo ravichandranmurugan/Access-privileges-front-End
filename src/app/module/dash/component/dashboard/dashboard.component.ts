@@ -16,8 +16,8 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['user/management']);
     } else if (value == 'module') {
       this.router.navigate(['module']);
-    } else if (value == 'tax') {
-      this.router.navigate(['main/tax']);
+    } else if (value == 'privilegesAccess') {
+      this.router.navigate(['privilegesAccess']);
     }else if(value == 'optical'){
       this.router.navigate(['main/optical']);
 

@@ -1,1 +1,298 @@
-<p>company works!</p>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="card-group mb-0">
+        <div class="card p-2">
+          <div class="card-header text-align-center">
+            <h2>Company Masters</h2>
+          </div>
+          <div class="card-body">
+            <!-- Navigatiom-->
+            <div class="grid grid-col-2">
+              <div
+                class="flex-box justify-content-center flex-direction-column align-items-center"
+              >
+                <h4>{{ title }}</h4>
+                <form
+                  ngForm
+                  class="form-horizontal width-80p"
+                  #companyMasterform="ngForm"
+                  (ngSubmit)="onAddNewCompany(companyMasterform,title)"
+                >
+                  <div class="row">
+                    <div class="col-md-7">
+                      <div class="custom-input">
+                        <div class="form-group mb-2">
+                          <label for="firstName">Company Name</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="companyName"
+                              required
+                              [(ngModel)]="companyMaster.companyName"
+                              #newCompanyNameInput="ngModel"
+                              placeholder="Company Name"
+                            />
+                          </div>
+                        </div>
+                        <span
+                          class="color-red"
+                          *ngIf="
+                            newCompanyNameInput.invalid &&
+                            newCompanyNameInput.touched
+                          "
+                          >***
+                        </span>
+                      </div>
+                      <div class="custom-input">
+                        <div class="form-group mb-2">
+                          <label for="lastName">Contact Person</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="contactPerson"
+                              required
+                              [(ngModel)]="companyMaster.contactPerson"
+                              #newContactPersonInput="ngModel"
+                              placeholder="Contact Person"
+                            />
+                          </div>
+                        </div>
+                        <span
+                          class="color-red"
+                          *ngIf="
+                            newContactPersonInput.invalid &&
+                            newContactPersonInput.touched
+                          "
+                          >***
+                        </span>
+                      </div>
+
+                      <div class="custom-input">
+                        <div class="form-group mb-2">
+                          <label for="userName">Company Email</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              name="companyEmail"
+                              class="form-control"
+                              required
+                              [(ngModel)]="companyMaster.companyEmail"
+                              #newCompanyEmailInput="ngModel"
+                              placeholder="Company Email"
+                            />
+                          </div>
+                        </div>
+                        <span
+                          class="color-red"
+                          *ngIf="
+                            newCompanyEmailInput.invalid &&
+                            newCompanyEmailInput.touched
+                          "
+                          >****
+                        </span>
+                      </div>
+
+                      <div class="custom-input">
+                        <div class="form-group mb-2">
+                          <label for="email">Company Address</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="email"
+                              class="form-control"
+                              required
+                              [(ngModel)]="companyMaster.companyAddress"
+                              name="companyAddress"
+                              #newCompanyAddressInput="ngModel"
+                              placeholder="Company Address"
+                            />
+                          </div>
+                        </div>
+                        <span
+                          class="color-red"
+                          *ngIf="
+                            newCompanyAddressInput.invalid &&
+                            newCompanyAddressInput.touched
+                          "
+                          >****
+                        </span>
+                      </div>
+                      <fieldset class="form-group">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input
+                              type="checkbox"
+                              name="active"
+                              [(ngModel)]="companyMaster.active"
+                              class="form-check-input"
+                            />
+                            Active
+                          </label>
+                        </div>
+                        <div class="form-check disabled">
+                          <label class="form-check-label">
+                            <input
+                              type="checkbox"
+                              name="deleted"
+                              [(ngModel)]="companyMaster.deleted"
+                              class="form-check-input"
+                            />
+                            isDeleted
+                          </label>
+                        </div>
+                    </fieldset>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="flex-box flex-direction-column">
+                        <div>
+                          <img
+                            ngDefaultControl
+                            height="150"
+                            name="companyLogo"
+                            width="150"
+                            height="150"
+                            [ngModelOptions]="{ standalone: true }"
+                            [src]="imagePath"
+                            [(ngModel)]="imagePath"
+                            class="rounded-circle"
+                            alt="select image"
+                          />
+                        </div>
+                        <div
+                          class="flex-box flex-direction-column flex-gap-5px file-upload-icon-input"
+                        >
+                          <i
+                            class="fa-solid fa-cloud-arrow-up"
+                            (click)="clickButton('fileSelector')"
+                          ></i>
+                          <input
+                            id="fileSelector"
+                            type="file"
+                            name="companyLogo"
+                            [(ngModel)]="companyMaster.companyLogo"
+                            class="custom-file-input display-none"
+                            (change)="onProfileImageChange($event)"
+                            [hidden]="true"
+                            accept="image/*"
+                          />
+                          <span class="color-red">{{ fileName }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <table class="table table-hover">
+                    <thead class="table-borderless">
+                      <tr class="text-center">
+                        <th>Select Module</th>
+                        <th><input  
+                          (change)="onSelectAllModules()"
+                         
+                          type="checkbox"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of moduleMap | keyvalue">
+                        <td>{{ item.key.moduleDescription }}</td>
+                        <td>
+                          <input
+                            [ngModelOptions]="{ standalone: true }"
+                            (change)="onCheckModule(item.key, $event)"
+                            [(ngModel)]="item.value"
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <button
+                    type="submit"
+                    [disabled]="companyMasterform.invalid || showLoading"
+                    name="button"
+                    class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+                  >
+                    <i *ngIf="showLoading" class="fa fa-spinner"></i
+                    >&nbsp;&nbsp;
+                    <span *ngIf="showLoading">Loading.....</span>
+                    <span *ngIf="!showLoading">Save !</span>
+                  </button>
+                </form>
+              </div>
+              <div>
+                <h4 class="flex-box justify-content-center">List of Company</h4>
+                <div class="container">
+                  <table class="table table-hover">
+                    <thead class="table-borderless">
+                      <tr class="text-center">
+                        <th>photo</th>
+                        <th>Company Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let appcompany of companys">
+                      <tr class="text-align-center">
+                        <!-- <td (click)="onSelectUser(appuser, viewUserModal)">
+                        <img
+                          height="40"
+                          width="40"
+                          src="{{ appuser?.profileImage }}"
+                          class="rounded-circle img-fluid img-thumbnail"
+                          alt=""
+                        />
+                      </td> -->
+                        <td></td>
+                        <td>{{ appcompany.companyName }}</td>
+                        <td>
+                          <div
+                            [hidden]="!appcompany?.active"
+                            class="badge bg-success"
+                          >
+                            Active
+                          </div>
+                          <div
+                            [hidden]="appcompany?.active"
+                            class="badge bg-danger"
+                          >
+                            Inactive
+                          </div>
+                        </td>
+                        <td class="">
+                          <div class="btn-group">
+                            <button class="btn btn-outline-info" (click)="onEditCompany(appcompany)">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" (click)="onDeleteCompany(appcompany.companyId)">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <button
+                      [hidden]="true"
+                      type="button"
+                      id="openUserInfo"
+                      data-toggle="modal"
+                      data-target="viewUserModal"
+                    ></button>
+                    <button
+                      [hidden]="true"
+                      type="button"
+                      id="openUseredit"
+                      data-toggle="modal"
+                      data-target="editUserModal"
+                    ></button>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,9 @@ export class PrivilegedAccess {
 
   public companyMaster!: CompanyMaster;
 
+  public description!:string;
+  public findModuleId!:string;
+  public findModuleGroupId!:string;
   public adds: boolean;
 
   public edits: boolean;

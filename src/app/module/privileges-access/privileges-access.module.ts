@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CompanyRoutingModule } from './company-routing.module';
-import { CompanyComponent } from './component/company/company.component';
+import { PrivilegesAccessRoutingModule } from './privileges-access-routing.module';
+import { PrevilegesAccessComponent } from './component/previleges-access/previleges-access.component';
 import { MaterialModule } from 'src/app/shared/module/material/material.module';
 import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    CompanyComponent
+    PrevilegesAccessComponent
   ],
   imports: [
     CommonModule,
-    CompanyRoutingModule,
+    PrivilegesAccessRoutingModule,
     MaterialModule,
     FormsModule
   ]
 })
-export class CompanyModule { }
+export class PrivilegesAccessModule { }

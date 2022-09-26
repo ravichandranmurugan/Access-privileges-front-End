@@ -12,6 +12,7 @@ export class ModuleGroupMaster {
   public deleted: boolean;
 
   public active: boolean;
+  public privilegedAccessONE!: PrivilegedAccess;
   public privilegedAccess: PrivilegedAccess[] = [];
 
   constructor() {
