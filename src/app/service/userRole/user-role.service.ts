@@ -34,10 +34,13 @@ export class UserRoleService {
 
 
   public deleteUserRole(userRoleId: string): Observable<CustomHttpResponse | HttpErrorResponse> {
-    return this.http.delete<CustomHttpResponse>(`${this.host}userRole/delete/${userRoleId}`);
+    return this.http.delete<CustomHttpResponse>(`${this.host}/userRole/delete/${userRoleId}`);
   }
 
-
+public addNewRoleWithPrivilegesAccess(userRole:UserRole):Observable<UserRole | HttpErrorResponse>{
+  debugger
+  return this.http.post<UserRole>(`${this.host}/userRole/addNewRole`,userRole);
+}
 
   public createUserFormData(
     oldroleDescription: string,

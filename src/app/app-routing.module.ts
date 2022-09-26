@@ -14,43 +14,44 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+
   {
-    path: 'dash',
-    loadChildren: () =>
-      import('./module/dash/dash.module').then(
-        (m) => m.DashModule
-      ),
-  },
-  {
-    path: 'module',
-    loadChildren: () =>
-      import('./module/module-access/module-access.module').then(
-        (m) => m.ModuleAccessModule
-      ),
-  },
-  {
-    path: 'company',
-    loadChildren: () =>
-      import('./module/company/company.module').then(
-        (m) => m.CompanyModule
-      ),
-  },
-  {
-    path: 'privilegesAccess',
-    loadChildren: () =>
-      import('./module/privileges-access/privileges-access.module').then(
-        (m) => m.PrivilegesAccessModule
-      ),
-  },
-  {
-    path: 'user',
+    path: 'layout',
     component: LayoutBottomComponent,
     children: [
       {
-        path: '',
+        path: 'user',
         loadChildren: () =>
           import('./module/usermanagement/usermanagement.module').then(
             (m) => m.UsermanagementModule
+          ),
+      },
+      {
+        path: 'dash',
+        loadChildren: () =>
+          import('./module/dash/dash.module').then(
+            (m) => m.DashModule
+          ),
+      },
+      {
+        path: 'module',
+        loadChildren: () =>
+          import('./module/module-access/module-access.module').then(
+            (m) => m.ModuleAccessModule
+          ),
+      },
+      {
+        path: 'company',
+        loadChildren: () =>
+          import('./module/company/company.module').then(
+            (m) => m.CompanyModule
+          ),
+      },
+      {
+        path: 'privilegesAccess',
+        loadChildren: () =>
+          import('./module/privileges-access/privileges-access.module').then(
+            (m) => m.PrivilegesAccessModule
           ),
       },
       

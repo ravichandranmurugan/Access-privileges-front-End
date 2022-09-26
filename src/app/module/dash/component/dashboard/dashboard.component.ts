@@ -11,13 +11,13 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {}
   onclick(value: string) {
     if (value == 'company') {
-      this.router.navigate(['company']);
+      this.router.navigate(['layout/company']);
     } else if (value == 'user') {
-      this.router.navigate(['user/management']);
+      this.router.navigate(['layout/user/management']);
     } else if (value == 'module') {
-      this.router.navigate(['module']);
+      this.router.navigate(['layout/module']);
     } else if (value == 'privilegesAccess') {
-      this.router.navigate(['privilegesAccess']);
+      this.router.navigate(['layout/privilegesAccess']);
     }else if(value == 'optical'){
       this.router.navigate(['main/optical']);
 

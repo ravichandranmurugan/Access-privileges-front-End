@@ -23,7 +23,7 @@
                     <div class="col-md-12">
                       <div class="custom-input">
                         <div class="form-group mb-2">
-                          <label for="firstName">Company Name</label>
+                          <label for="firstName">Role Description</label>
                           <div class="col-sm-10">
                             <input
                               type="text"
@@ -32,7 +32,7 @@
                               required
                               [(ngModel)]="roleDescription"
                               #newCompanyNameInput="ngModel"
-                              placeholder="Company Name"
+                              placeholder="Role Description"
                             />
                           </div>
                         </div>
@@ -45,7 +45,7 @@
                           >***
                         </span>
                       </div>
-                      <div class="custom-input">
+                      <!-- <div class="custom-input">
                         <div class="form-group mb-2">
                           <label for="lastName">Contact Person</label>
                           <div class="col-sm-10">
@@ -68,7 +68,7 @@
                           "
                           >***
                         </span>
-                      </div>
+                      </div> -->
 
                       <fieldset class="form-group">
                         <div class="form-check">
@@ -82,24 +82,14 @@
                             Active
                           </label>
                         </div>
-                        <div class="form-check disabled">
-                          <label class="form-check-label">
-                            <input
-                              type="checkbox"
-                              name="deleted"
-                              [(ngModel)]="deleted"
-                              class="form-check-input"
-                            />
-                            isDeleted
-                          </label>
-                        </div>
+                       
                       </fieldset>
                       <div class="col-md-12 mt-4">
                         <mat-accordion>
                           <div
                             class="mt-2"
                             *ngFor="
-                              let privilegesAcess of userRole.companyMaster
+                              let privilegesAcess of this.userService.userRole.companyMaster
                                 .moduleMaster
                             "
                           >
@@ -212,20 +202,7 @@
                                     </th>
                                  </tr>
                                   </tbody>
-                                  <button
-                                    [hidden]="true"
-                                    type="button"
-                                    id="openUserInfo"
-                                    data-toggle="modal"
-                                    data-target="viewUserModal"
-                                  ></button>
-                                  <button
-                                    [hidden]="true"
-                                    type="button"
-                                    id="openUseredit"
-                                    data-toggle="modal"
-                                    data-target="editUserModal"
-                                  ></button>
+                                  
                                 </table>
                               </div>
                             </mat-expansion-panel>
@@ -250,6 +227,50 @@
               </div>
               <div>
                 <h4 class="flex-box justify-content-center">List of Roles</h4>
+
+                <table class="table table-hover">
+                  <thead class="table-borderless">
+                    <tr class="text-center">
+                      <th>Role Description</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    *ngFor="
+                      let app of userRoleArray
+                    "
+                  >
+                 <tr class="text-align-center">
+                  <td>{{app.roleDescription}}</td>
+                  <td>
+                    <div
+                      [hidden]="app?.deleted"
+                      class="badge bg-success"
+                    >
+                      Active
+                    </div>
+                    <div
+                      [hidden]="!app?.deleted"
+                      class="badge bg-danger"
+                    >
+                      Inactive
+                    </div>
+                  </td>
+                  <td class="">
+                    <div class="btn-group">
+                      <button class="btn btn-outline-info" (click)="onEditRole(app)" >
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn btn-outline-danger" >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                 </tr>
+                  </tbody>
+                  
+                </table>
               </div>
             </div>
           </div>

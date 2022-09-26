@@ -5,11 +5,13 @@ export class UserRole {
 
   public roleDescription: string;
 
-  public companyMaster!:CompanyMaster;
+  public companyMaster:CompanyMaster = new CompanyMaster();
   public authorities: string[];
+  public deleted!:boolean
   constructor() {
     this.roleId = '';
     this.roleDescription = '';
     this.authorities = [];
+
   }
 }

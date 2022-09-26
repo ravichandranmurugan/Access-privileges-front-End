@@ -96,7 +96,7 @@ export class ModuleaccessComponent implements OnInit {
       this.moduleService.addModuleMaster(this.newModuleMaster).subscribe(
         (response: ModuleMaster | any) => {
           debugger
-          
+          moduleForm.reset()
           this.refreshing = false;
           if (true) {
             this.sendNotification(
