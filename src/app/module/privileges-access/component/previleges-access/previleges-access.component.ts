@@ -84,7 +84,7 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
     this.companyMaster.moduleMaster.map((x) => {
       x.moduleGroupMaster.map((data) => {
         const privileges = this.privilegesAccess.find(
-          (d) => d.findModuleGroupId == data.moduleGroupId
+          (d) => d.moduleMasterGroupId == data.moduleGroupId
         );
         if (privileges) {
           data.privilegedAccess.push(privileges!);
@@ -153,8 +153,8 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
         const newPrivilegesAccess = new PrivilegedAccess();
         newPrivilegesAccess.description =
           data.moduleGroupDescription + ' ' + data.moduleGroupType;
-        newPrivilegesAccess.findModuleId = x.moduleId;
-        newPrivilegesAccess.findModuleGroupId = data.moduleGroupId;
+        newPrivilegesAccess.moduleMasterId = x.moduleId;
+        newPrivilegesAccess.moduleMasterGroupId = data.moduleGroupId;
         this.privilegesAccess.push(newPrivilegesAccess);
       });
     });
@@ -199,8 +199,8 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
         const newPrivilegesAccess = new PrivilegedAccess();
         newPrivilegesAccess.description =
           data.moduleGroupDescription + ' ' + data.moduleGroupType;
-        newPrivilegesAccess.findModuleId = x.moduleId;
-        newPrivilegesAccess.findModuleGroupId = data.moduleGroupId;
+        newPrivilegesAccess.moduleMasterId = x.moduleId;
+        newPrivilegesAccess.moduleMasterGroupId = data.moduleGroupId;
         this.privilegesAccess.push(newPrivilegesAccess);
       });
     });
