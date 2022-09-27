@@ -34,7 +34,8 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
   panelOpenState = false;
   title: string = 'Privileges Access';
   roleDescription: string = '';
-  active: string = '';
+  oleRoleDescription: string = '';
+  active: boolean = false;
   deleted: string = '';
   roleLimit: number = 0;
   showLoading: boolean = false;
@@ -80,14 +81,17 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
   onAddRole(userRoleForm: NgForm, title: string) {
     debugger;
     this.privilegesAccess;
+   
     this.companyMaster = this.userService.userRole.companyMaster;
     this.companyMaster.moduleMaster.map((x) => {
       x.moduleGroupMaster.map((data) => {
-        const privileges = this.privilegesAccess.find(
-          (d) => d.moduleMasterGroupId == data.moduleGroupId
+        data.privilegedAccess = [];
+        const privileges = this.privilegesAccess.filter(
+          (d) => d.moduleMasterGroupId == data.moduleGroupId && d.privilegedAccessId =="" && d.userRoleMasterId == ""
         );
         if (privileges) {
-          data.privilegedAccess.push(privileges!);
+         
+          data.privilegedAccess = privileges;
         }
       });
     });
@@ -96,26 +100,50 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
     this.userRole.companyMaster.moduleMaster = [];
      this.userRole.companyMaster.moduleMaster = this.moduleMaster
 
-     this.subscription.push(
-      this.userRoleService.addNewRoleWithPrivilegesAccess(this.userRole).subscribe(
-        (response: UserRole | any) => {
-          debugger;
-          this.showLoading = false;
-        
-          this.sendNotification(
-            NotificationType.SUCCESS,
-            ` UserRole Added Sucessfully`
-          );
-        },
-        (errorResponse: HttpErrorResponse) => {
-          this.sendNotification(
-            NotificationType.ERROR,
-            errorResponse.error
-          );
-          this.showLoading = false;
-        }
-      )
-    );
+     if(title == "Privileges Access"){
+
+       this.subscription.push(
+        this.userRoleService.addNewRoleWithPrivilegesAccess(this.userRole).subscribe(
+          (response: UserRole | any) => {
+            debugger;
+            this.showLoading = false;
+          
+            this.sendNotification(
+              NotificationType.SUCCESS,
+              ` UserRole Added Sucessfully`
+            );
+          },
+          (errorResponse: HttpErrorResponse) => {
+            this.sendNotification(
+              NotificationType.ERROR,
+              errorResponse.error
+            );
+            this.showLoading = false;
+          }
+        )
+      );
+     }else{
+      this.subscription.push(
+        this.userRoleService.updateRoleWithPrivilegesAccess(this.privilegesAccess,this.roleDescription,this.active,this.oleRoleDescription).subscribe(
+          (response: UserRole | any) => {
+            debugger;
+            this.showLoading = false;
+          this.onEditRole(response);
+            this.sendNotification(
+              NotificationType.SUCCESS,
+              ` UserRole updated Sucessfully`
+            );
+          },
+          (errorResponse: HttpErrorResponse) => {
+            this.sendNotification(
+              NotificationType.ERROR,
+              errorResponse.error
+            );
+            this.showLoading = false;
+          }
+        )
+      );
+     }
   }
   /**Load User from Db */
   loadUser() {
@@ -143,9 +171,24 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
   }
   //**Get User Modules */
   getModulesFromLocalStorage() {
+    debugger
     this.userService =
       this.authenticationService.getUserFromLocalStorageCache();
    // this.userRole = this.userService.userRole;
+  if(this.userService.userRole.roleDescription == "ROLE_ROOT_ADMIN"){
+    this.companyMaster = this.userService.companyMaster;
+    this.moduleMaster = this.userService.companyMaster.moduleMaster;
+    this.moduleMaster.map((x) => {
+      x.moduleGroupMaster.map((data) => {
+        const newPrivilegesAccess = new PrivilegedAccess();
+        newPrivilegesAccess.description =
+          data.moduleGroupDescription + ' ' + data.moduleGroupType;
+        newPrivilegesAccess.moduleMasterId = x.moduleId;
+        newPrivilegesAccess.moduleMasterGroupId = data.moduleGroupId;
+        this.privilegesAccess.push(newPrivilegesAccess);
+      });
+    });
+  }else{
     this.companyMaster = this.userService.userRole.companyMaster;
     this.moduleMaster = this.userService.userRole.companyMaster.moduleMaster;
     this.moduleMaster.map((x) => {
@@ -158,6 +201,7 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
         this.privilegesAccess.push(newPrivilegesAccess);
       });
     });
+  }
   }
 
   /** send notification  */
@@ -192,16 +236,23 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
 
   /** on edit user Role */
   onEditRole(userRole:UserRole){
+    debugger
+    this.oleRoleDescription = userRole.roleDescription;
+    this.title = `Edit ${userRole.roleDescription}`
     this.roleDescription = userRole.roleDescription;
     this.privilegesAccess = []; 
     userRole.companyMaster.moduleMaster.map((x) => {
       x.moduleGroupMaster.map((data) => {
-        const newPrivilegesAccess = new PrivilegedAccess();
-        newPrivilegesAccess.description =
-          data.moduleGroupDescription + ' ' + data.moduleGroupType;
-        newPrivilegesAccess.moduleMasterId = x.moduleId;
-        newPrivilegesAccess.moduleMasterGroupId = data.moduleGroupId;
-        this.privilegesAccess.push(newPrivilegesAccess);
+       data.privilegedAccess.map(dataa=>{
+       if(dataa.userRoleMasterId == userRole.roleId){
+        dataa.description =
+        data.moduleGroupDescription + ' ' + data.moduleGroupType;
+      // newPrivilegesAccess.moduleMasterId = x.moduleId;
+      // newPrivilegesAccess.moduleMasterGroupId = data.moduleGroupId;
+      this.privilegesAccess.push(dataa);
+       }
+       })
+     
       });
     });
   }

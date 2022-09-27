@@ -4,7 +4,7 @@ import { CompanyComponent } from './component/company/company.component';
 
 const routes: Routes = [
   {
-    path:'',
+    path:'home',
     component:CompanyComponent
   }
 ];

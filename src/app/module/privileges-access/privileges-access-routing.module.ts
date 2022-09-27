@@ -5,7 +5,7 @@ import { PrevilegesAccessComponent } from './component/previleges-access/previle
 
 const routes: Routes = [
   {
-    path:'',
+    path:'home',
     component:PrevilegesAccessComponent,canActivate:[AuthenticationGuard]
   }
 ];

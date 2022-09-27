@@ -5,7 +5,7 @@ import { ModuleaccessComponent } from './component/moduleaccess/moduleaccess.com
 
 const routes: Routes = [
   {
-    path:"",
+    path:"home",
     component:ModuleaccessComponent,canActivate:[AuthenticationGuard]
   }
 ];

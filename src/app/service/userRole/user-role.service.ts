@@ -9,11 +9,13 @@ import {
 import { Observable } from 'rxjs';
 import { UserRole } from '../../model/UserRole';
 import { CustomHttpResponse } from '../../model/custom-http-response';
+import { PrivilegedAccess } from 'src/app/model/PrivilegedAccess';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserRoleService {
+ 
   private host: string = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
@@ -41,7 +43,10 @@ public addNewRoleWithPrivilegesAccess(userRole:UserRole):Observable<UserRole | H
   debugger
   return this.http.post<UserRole>(`${this.host}/userRole/addNewRole`,userRole);
 }
-
+public updateRoleWithPrivilegesAccess(privilegedAccess:PrivilegedAccess[],roleDescription:string,status:boolean,oleDescription:string):Observable<PrivilegedAccess[] | HttpErrorResponse>{
+  debugger
+  return this.http.post<PrivilegedAccess[]>(`${this.host}/userRole/updateRole/${roleDescription}/${status}/${oleDescription}`,privilegedAccess);
+}
   public createUserFormData(
     oldroleDescription: string,
     userRole: UserRole

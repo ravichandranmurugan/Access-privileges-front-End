@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NotificationType } from 'src/app/core/enum/notification-type-enum';
+import { AuthenticationService } from 'src/app/core/service/authentication.service';
 import { NotificationService } from 'src/app/core/service/notification.service';
 import { CompanyMaster } from 'src/app/model/CompanyMaster';
 import { CustomHttpResponse } from 'src/app/model/custom-http-response';
 import { ModuleMaster } from 'src/app/model/ModuleMaster';
+import { User } from 'src/app/model/User';
 import { CompanyService } from 'src/app/service/company/company.service';
 import { ModuleMasterService } from 'src/app/service/Module/module-master.service';
 
@@ -31,10 +33,16 @@ export class CompanyComponent implements OnInit {
   constructor(
     private moduleService: ModuleMasterService,
     private notificationService: NotificationService,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private authService:AuthenticationService
   ) {}
-
+  userService:User= new User();
+  moduleAccess:ModuleMaster[] = [];
+   
   ngOnInit(): void {
+    this.userService =  this.authService.getUserFromLocalStorageCache()
+    this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
+    
     this.getAllModules();
     this.getCompanys(true);
   }

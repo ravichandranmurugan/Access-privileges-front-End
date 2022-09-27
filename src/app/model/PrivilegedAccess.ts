@@ -6,7 +6,7 @@ export class PrivilegedAccess {
   public companyMaster!: CompanyMaster;
 
   public description!:string;
-  public userRoleId!:string;
+  public userRoleMasterId:string;
   public moduleMasterId!:string;
   public moduleMasterGroupId!:string;
   public adds: boolean;
@@ -35,5 +35,6 @@ export class PrivilegedAccess {
     this.views = false;
     this.createdBy = '';
     this.updateBy = '';
+    this.userRoleMasterId = '';
   }
 }

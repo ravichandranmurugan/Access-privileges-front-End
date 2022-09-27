@@ -1,8 +1,8 @@
 <div class="container height-100p">
   <div
-    class="height-100p flex-gap-20px flex-box justify-content-center align-items-center"
+    class="height-100p flex-gap-20px flex-box justify-content-center align-items-center" 
   >
-    <div class="card" (click)="onclick('company')">
+    <!-- <div class="card" (click)="onclick('company')">
       <img
         src="../../../../../assets/company.png"
         alt="Avatar"
@@ -46,38 +46,22 @@
         <p><small class="form-text text-muted">check details</small></p>
       </div>
     </div>
-    <!-- <div class="card" (click)="onclick('tax')">
-      <img
-        src="../../../../../assets/tax.jpg"
-        alt="Avatar"
-        style="width: 100%; height: 70%"
-      />
-      <div class="container-card">
-        <h4><b>Tax Master</b></h4>
-        <p><small class="form-text text-muted">check details</small></p>
+    -->
+  
+     
+      <div *ngFor="let module of moduleAccess" class="card" (click)="onclick(module.modulePath)">
+        <img 
+          src="../../../../../assets/{{module.modulePath}}.jpg"
+          alt="Avatar"
+          style="width: 100%; height: 70%"
+        />
+        <div class="container-card">
+          <h4><b>{{module.moduleDescription}}</b></h4>
+          <p><small class="form-text text-muted">check details</small></p>
+        </div>
       </div>
-    </div>
-    <div class="card" (click)="onclick('optical')">
-      <img
-        src="../../../../../assets/opticals.jpg"
-        alt="Avatar"
-        style="width: 100%; height: 70%"
-      />
-      <div class="container-card">
-        <h4><b>Optical Master</b></h4>
-        <p><small class="form-text text-muted">check details</small></p>
-      </div>
-    </div>
-    <div class="card" (click)="onclick('invoice')">
-      <img
-        src="../../../../../assets/invoice.png"
-        alt="Avatar"
-        style="width: 100%; height: 70%"
-      />
-      <div class="container-card">
-        <h4><b>Invoice Master</b></h4>
-        <p><small class="form-text text-muted">check details</small></p>
-      </div>
-    </div> -->
+ 
+  
   </div>
+  
 </div>

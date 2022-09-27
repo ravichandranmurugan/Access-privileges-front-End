@@ -75,8 +75,8 @@
                           <label class="form-check-label">
                             <input
                               type="checkbox"
-                              name="active"
-                              [(ngModel)]="active"
+                              name="deleted"
+                              [(ngModel)]="deleted"
                               class="form-check-input"
                             />
                             Active
@@ -89,7 +89,7 @@
                           <div
                             class="mt-2"
                             *ngFor="
-                              let privilegesAcess of this.userService.userRole.companyMaster
+                              let privilegesAcess of this.companyMaster
                                 .moduleMaster
                             "
                           >
