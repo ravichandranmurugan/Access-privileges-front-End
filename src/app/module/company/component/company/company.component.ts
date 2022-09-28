@@ -38,13 +38,16 @@ export class CompanyComponent implements OnInit {
   ) {}
   userService:User= new User();
   moduleAccess:ModuleMaster[] = [];
-   
+  myRole:string = '';
   ngOnInit(): void {
     this.userService =  this.authService.getUserFromLocalStorageCache()
     this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
-    
-    this.getAllModules();
-    this.getCompanys(true);
+    this.myRole = this.userService.userRole.roleDescription
+
+    if(this.myRole == "ROLE_ROOT_ADMIN"){
+      this.getAllModules();
+      this.getCompanys(true);
+    }
   }
 
   /** Add New Company */
