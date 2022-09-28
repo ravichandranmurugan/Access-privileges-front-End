@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { data } from 'jquery';
 import { Subscription } from 'rxjs';
 import { NotificationType } from 'src/app/core/enum/notification-type-enum';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
@@ -29,27 +30,76 @@ export class CompanyComponent implements OnInit {
   modules: ModuleMaster[] = [];
   modulesCopy: ModuleMaster[] = [];
   companys: CompanyMaster[] = [];
-  currentCompanyEmail:string = '';
+  currentCompanyEmail: string = '';
+  add!: boolean;
+  edit!: boolean;
+  delete!: boolean;
+  print!: boolean;
+  view!: boolean;
   constructor(
     private moduleService: ModuleMasterService,
     private notificationService: NotificationService,
     private companyService: CompanyService,
-    private authService:AuthenticationService
+    private authService: AuthenticationService
   ) {}
-  userService:User= new User();
-  moduleAccess:ModuleMaster[] = [];
-  myRole:string = '';
+  userService: User = new User();
+  moduleAccess: ModuleMaster[] = [];
+  myRole: string = '';
   ngOnInit(): void {
-    this.userService =  this.authService.getUserFromLocalStorageCache()
+    debugger;
+    this.userService = this.authService.getUserFromLocalStorageCache();
     this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
-    this.myRole = this.userService.userRole.roleDescription
+    this.myRole = this.userService.userRole.roleDescription;
+    const companyModule = this.moduleAccess.find(
+      (x) => x.moduleDescription == 'Company Master'
+    );
+    const companyModuleGroup = companyModule?.moduleGroupMaster.find(
+      (x) => x.moduleGroupDescription == 'Home Page'
+    );
+    const companyPrivilegesAccess = companyModuleGroup?.privilegedAccess.find(
+      (x) => x.userRoleMasterId == this.userService.userRole.roleId
+    );
 
-    if(this.myRole == "ROLE_ROOT_ADMIN"){
+    this.add = companyPrivilegesAccess?.adds!;
+    this.delete = companyPrivilegesAccess?.deletes!;
+    this.view = companyPrivilegesAccess?.views!;
+    this.edit = companyPrivilegesAccess?.edits!;
+    this.print = companyPrivilegesAccess?.prints!;
+
+    debugger;
+    if (this.myRole == 'ROLE_ROOT_ADMIN') {
       this.getAllModules();
       this.getCompanys(true);
+    } else {
+      this.companyMaster = this.userService.userRole.companyMaster;
+      this.companyMaster.moduleMaster.map(x=>{
+        this.modules.push(x)
+        this.modulesCopy.push(x)
+      })
+      this.onEditCompany(this.companyMaster);
     }
   }
 
+    //can view
+ 
+
+  public get canView(): boolean {
+   if(this.view == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+    return true
+   }else{
+    return false
+   }
+  }
+//can edit
+
+public get canEdit(): boolean {
+  
+  if(this.edit == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+    return true
+   }else{
+    return false
+   }
+}
   /** Add New Company */
   onAddNewCompany(companyForm: NgForm, title: string) {
     debugger;
@@ -75,7 +125,7 @@ export class CompanyComponent implements OnInit {
             this.modules.map((data) => {
               this.moduleMap.set(data, false);
             });
-           this.getCompanys(false);
+            this.getCompanys(false);
             this.sendNotification(NotificationType.SUCCESS, response.message);
           },
           (errorResponse: HttpErrorResponse) => {
@@ -89,27 +139,29 @@ export class CompanyComponent implements OnInit {
       );
     } else {
       this.subscription.push(
-        this.companyService.updateCompany(this.companyMaster,this.currentCompanyEmail).subscribe(
-          (response: CustomHttpResponse | any) => {
-            this.modules = response;
-            companyForm.reset();
-            debugger;
-            this.modules.map((data) => {
-              this.moduleMap.set(data, false);
-            });
-            debugger;
-            this.getCompanys(false);
-            this.title === 'Add Company'
-            this.sendNotification(NotificationType.SUCCESS, response.message);
-          },
-          (errorResponse: HttpErrorResponse) => {
-            this.sendNotification(
-              NotificationType.ERROR,
-              errorResponse.error.message
-            );
-            this.showLoading = false;
-          }
-        )
+        this.companyService
+          .updateCompany(this.companyMaster, this.currentCompanyEmail)
+          .subscribe(
+            (response: CustomHttpResponse | any) => {
+              this.modules = response;
+              companyForm.reset();
+              debugger;
+              this.modules.map((data) => {
+                this.moduleMap.set(data, false);
+              });
+              debugger;
+              this.getCompanys(false);
+              this.title === 'Add Company';
+              this.sendNotification(NotificationType.SUCCESS, response.message);
+            },
+            (errorResponse: HttpErrorResponse) => {
+              this.sendNotification(
+                NotificationType.ERROR,
+                errorResponse.error.message
+              );
+              this.showLoading = false;
+            }
+          )
       );
     }
   }
@@ -128,7 +180,7 @@ export class CompanyComponent implements OnInit {
           if (showNotification) {
             this.sendNotification(
               NotificationType.SUCCESS,
-              `${response.length} User(s) loades sucessfully`
+              `${response.length} Company Loaded sucessfully`
             );
           }
         },
@@ -148,11 +200,11 @@ export class CompanyComponent implements OnInit {
     debugger;
     this.title = `Edit Company  ${company.companyName}`;
     this.companyMaster = company;
-    if(company.moduleMaster.length == 0){
+    if (company.moduleMaster.length == 0) {
       this.modules.map((data) => {
         this.moduleMap.set(data, false);
       });
-    }else{
+    } else {
       this.setAllModuleMasterFalseOrTrue(false);
       company.moduleMaster.map((x) => {
         this.modulesCopy.find((x1) => {
@@ -162,7 +214,7 @@ export class CompanyComponent implements OnInit {
         });
       });
     }
-   
+
     debugger;
     this.currentCompanyEmail = company.companyEmail;
   }
@@ -181,7 +233,7 @@ export class CompanyComponent implements OnInit {
             NotificationType.ERROR,
             errorResponse.error.message
           );
-          }
+        }
       )
     );
   }
@@ -222,7 +274,7 @@ export class CompanyComponent implements OnInit {
     message: string
   ) {
     if (message) {
-      this.notificationService.notify(notificationType, message.toLowerCase());
+      this.notificationService.notify(notificationType, message);
     } else {
       this.notificationService.notify(
         notificationType,
@@ -230,22 +282,28 @@ export class CompanyComponent implements OnInit {
       );
     }
   }
-
+//cancel form 
+cancelForm(form:NgForm){
+  form.reset();
+  this.setAllModuleMasterFalseOrTrue(false);
+  this.title = 'Add Company';
+  this.getCompanys(false);
+}
   loadExistDataModuleMap(value1: any) {
     debugger;
 
     this.moduleMap.set(value1, true);
   }
-  onSelectAllModules(){
+  onSelectAllModules() {
     this.setAllModuleMasterFalseOrTrue(true);
   }
 
-/**set all module master false */
-setAllModuleMasterFalseOrTrue(value:boolean){
-  this.modules.map((data) => {
-    this.moduleMap.set(data, value);
-  });
-}
+  /**set all module master false */
+  setAllModuleMasterFalseOrTrue(value: boolean) {
+    this.modules.map((data) => {
+      this.moduleMap.set(data, value);
+    });
+  }
   /** Get All Modules */
   getAllModules() {
     this.subscription.push(

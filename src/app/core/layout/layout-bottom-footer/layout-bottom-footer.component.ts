@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/model/User';
 import { AuthenticationService } from '../../service/authentication.service';
 
 @Component({
@@ -13,16 +14,18 @@ export class LayoutBottomFooterComponent implements OnInit {
     private authService:AuthenticationService) { }
   activeIcon:any;
   activehover:any;
+  loggedInUser!: User;
   ngOnInit(): void {
+    this.loggedInUser = this.authService.getUserFromLocalStorageCache();
   }
   iconCilcked(value:string){
     this.activeIcon = value
     if(value == 'home'){
       this.router.navigate(['layout/dash/home']);
     }
-    if(value =='logout'){
+    if(value =='sign-out'){
       this.authService.Logout();
-      this.router.navigate(['layout/dash/home']);
+      this.router.navigate(['auth/login']);
     }
   }
   iconhover(value:string){

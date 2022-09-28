@@ -7,14 +7,24 @@
             <h2>User Management</h2>
             <small *ngIf="titleAction$ | async as title">{{ title }}</small>
           </div>
-          <div class="card-body">
+          <div class="card-body" [hidden]="!canView">
             <!-- Navigatiom-->
 
             <mat-tab-group (selectedTabChange)="onTabChange($event)">
               <mat-tab label="Users">
                 <div class="tab-pane fade show active mt-4" id="users">
                   <div class="mb-3 row">
-                    <div class="col-md-6"></div>
+                    <div class="col-md-4"></div>
+                    <button
+                    type="button"
+                    class="col-md-2 btn btn-info"
+                    data-toggle="modal"
+                    data-target="addUserModal"
+                    (click)="open(addUserModal)"
+                    [hidden]="!canprint"
+                  >
+                    <i class="fa fa-print"></i>&nbsp;print
+                  </button>
                     <form
                       #searchForm="ngForm"
                       class="col-md-3 form-inline my-2 my-lg-0 justify-content-center"
@@ -35,7 +45,7 @@
                       data-toggle="modal"
                       data-target="addUserModal"
                       (click)="open(addUserModal)"
-                      
+                      [hidden]="!canAdd"
                     >
                       <i class="fa fa-plus"></i>&nbsp;New user
                     </button>
@@ -45,7 +55,7 @@
                         class="btn btn-info"
                         data-toggle="modal"
                         data-target="addUserModal"
-                        (click)="getUsers(true)"
+                        (click)="getUsers(true,myRole)"
                       >
                         <i *ngIf="refreshing" class="fa fa-sync fa-spin"></i
                         ><i *ngIf="!refreshing" class="fa fa-sync"></i>
@@ -56,7 +66,6 @@
                     <thead class="table-borderless">
                       <tr class="text-center">
                         <th>photo</th>
-                        <th>User ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>UserName</th>
@@ -76,9 +85,7 @@
                             alt=""
                           />
                         </td>
-                        <td (click)="onSelectUser(appuser, viewUserModal)">
-                          {{ appuser?.userId }}
-                        </td>
+                       
                         <td (click)="onSelectUser(appuser, viewUserModal)">
                           {{ appuser?.firstName }}
                         </td>
@@ -108,13 +115,14 @@
                         <td class="">
                           <div class="btn-group">
                             <button
+                            [hidden]="!canEdit"
                               (click)="onEditUser(appuser); open(editUserModal)"
                               class="btn btn-outline-info"
                             >
                               <i class="fas fa-edit"></i>
                             </button>
                             <button
-                             
+                            [hidden]="!canDelete"
                               (click)="onDeleteUser(appuser.userName)"
                               class="btn btn-outline-danger"
                             >
@@ -412,6 +420,12 @@
               </mat-tab> -->
             </mat-tab-group>
           </div>
+          <div [hidden]="canView">
+            <div class="flex-box justify-content-center align-items-center flex-direction-column">
+              <h4 class="color-red">Access Denied </h4>
+              <small class="form-text text-muted">please contact Administration</small>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -683,6 +697,7 @@
       <div class="modal-footer">
         <div class="col-md-3">
           <button
+          (click)="cancelForm(registerform)"
             type="submit"
             name="button"
             class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"
@@ -711,7 +726,7 @@
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">
         {{ editUser.firstName + " " + editUser.lastName
-        }}<small>(Read Only)</small>
+        }}
       </h4>
       <button
         type="button"
@@ -903,6 +918,7 @@
     <div class="modal-footer">
       <div class="col-md-3">
         <button
+        (click)="cancelForm(editform)"
           type="submit"
           name="button"
           class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"

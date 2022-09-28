@@ -8,6 +8,7 @@ import { NotificationType } from 'src/app/core/enum/notification-type-enum';
 import { NotificationService } from 'src/app/core/service/notification.service';
 import { ModuleGroupMaster } from 'src/app/model/ModuleGroupMaster';
 import { ModuleMaster } from 'src/app/model/ModuleMaster';
+import { User } from 'src/app/model/User';
 import { ModuleMasterService } from 'src/app/service/Module/module-master.service';
 import {AuthenticationService} from '../../../../core/service/authentication.service'
 @Component({
@@ -23,6 +24,15 @@ export class ModuleaccessComponent implements OnInit {
   subscription: Subscription[] = [];
   refreshing: boolean = false;
   currentModuleDescription: string = '';
+  userService: User = new User();
+  moduleAccess:ModuleMaster[]= [];
+  myRole!:string ;
+  add!: boolean;
+  edit!: boolean;
+  delete!: boolean;
+  print!: boolean;
+  view!: boolean;
+  title:string = "Add New Modules"
   constructor(
     private moduleService: ModuleMasterService,
     private notificationService: NotificationService,
@@ -31,8 +41,50 @@ export class ModuleaccessComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllModuleMaster(true);
+
+    this.userService = this.authenticationService.getUserFromLocalStorageCache();
+    this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
+    this.myRole = this.userService.userRole.roleDescription;
+    const companyModule = this.moduleAccess.find(
+      (x) => x.moduleDescription == 'Module Master'
+    );
+    const companyModuleGroup = companyModule?.moduleGroupMaster.find(
+      (x) => x.moduleGroupDescription == 'Home Page'
+    );
+    const companyPrivilegesAccess = companyModuleGroup?.privilegedAccess.find(
+      (x) => x.userRoleMasterId == this.userService.userRole.roleId
+    );
+
+    this.add = companyPrivilegesAccess?.adds!;
+    this.delete = companyPrivilegesAccess?.deletes!;
+    this.view = companyPrivilegesAccess?.views!;
+    this.edit = companyPrivilegesAccess?.edits!;
+    this.print = companyPrivilegesAccess?.prints!;
+    if(this.myRole == 'ROLE_ROOT_ADMIN'){
+      this.getAllModuleMaster(true);
+    }
+   
   }
+
+
+  
+  public get canView(): boolean {
+    if(this.view == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+     return true
+    }else{
+     return false
+    }
+   }
+ //can edit
+ 
+ public get canEdit(): boolean {
+   
+   if(this.edit == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+     return true
+    }else{
+     return false
+    }
+ }
 
   /**serach module */
 
@@ -69,7 +121,7 @@ export class ModuleaccessComponent implements OnInit {
           if (showNotification) {
             this.sendNotification(
               NotificationType.SUCCESS,
-              `${response.length} User(s) loades sucessfully`
+              `${response.length} Module's loades sucessfully`
             );
           }
         },
@@ -97,6 +149,7 @@ export class ModuleaccessComponent implements OnInit {
         (response: ModuleMaster | any) => {
           debugger
           moduleForm.reset()
+          this.newModuleMaster.moduleGroupMaster = []
           this.refreshing = false;
           if (true) {
             this.sendNotification(
@@ -129,8 +182,19 @@ addSubModule(obj:ModuleMaster){
   onEditModule(value: ModuleMaster) {
     this.editModuleMaster = value;
     this.currentModuleDescription = value.moduleDescription;
+    this.title = `Edit ${value.moduleDescription}`;
   }
-
+  cancelForm(form:NgForm,value:string){
+    form.reset();
+    this.newModuleMaster.moduleGroupMaster = []
+    this.editModuleMaster.moduleGroupMaster = []
+    if(value == 'update'){
+      this.title = "Add New Modules"
+    }
+    if(this.myRole == 'ROLE_ROOT_ADMIN'){
+      this.getAllModuleMaster(true);
+    }
+  }
   onEditModuleSubmit(moduleForm: NgForm) {
     // const formData = this.moduleService.createUserFormData(
     //   this.currentModuleDescription,
@@ -191,7 +255,7 @@ addSubModule(obj:ModuleMaster){
     message: string
   ) {
     if (message) {
-      this.notificationService.notify(notificationType, message.toLowerCase());
+      this.notificationService.notify(notificationType, message);
     } else {
       this.notificationService.notify(
         notificationType,
@@ -214,4 +278,6 @@ addSubModule(obj:ModuleMaster){
   clickButton(bttonId: string) {
     document.getElementById(bttonId)?.click();
   }
+
+
 }

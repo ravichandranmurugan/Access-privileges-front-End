@@ -6,10 +6,11 @@
           <div class="card-header text-align-center">
             <h2>Module Master</h2>
           </div>
-          <div class="card-body">
-            <mat-tab-group>
-              <mat-tab label="Add Module">
-                <div class="">
+          <div class="card-body" [hidden]="!canView">
+            <div class="grid grid-col-2-50p gap-1p">
+              <div class="flex-box flex-direction-column">
+                <h4 class="mb-2 text-align-center">{{ title }}</h4>
+                <fieldset [disabled]="!canEdit" *ngIf="title == 'Add New Modules'" class="padding-left-5px">
                   <form
                     ngForm
                     class="form-horizontal width-80p"
@@ -58,12 +59,13 @@
                       <span
                         class="color-red"
                         *ngIf="
-                          newModuleTypeInput.invalid && newModuleTypeInput.touched
+                          newModuleTypeInput.invalid &&
+                          newModuleTypeInput.touched
                         "
                         >***
                       </span>
                     </div>
-    
+
                     <div class="custom-input">
                       <div class="form-group mb-2">
                         <label for="userName">Module Path</label>
@@ -82,28 +84,30 @@
                       <span
                         class="color-red"
                         *ngIf="
-                          newModulePathInput.invalid && newModulePathInput.touched
+                          newModulePathInput.invalid &&
+                          newModulePathInput.touched
                         "
                         >****
                       </span>
                     </div>
-    
-                   
-                    <button
-                      type="button"
-                      (click)="addSubModule(newModuleMaster)"
-                      class="btn bg-color-color-main border-none botton-shadow btn-primary active"
-                    >
-                      Add Sub Module
-                    </button>
-    
+
+                    <div class="flex-box justify-flex-flex-end mt-2">
+                      <button
+                        type="button"
+                        (click)="addSubModule(newModuleMaster)"
+                        class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+                      >
+                        <i class="fa fa-plus"></i>&nbsp;Sub Module
+                      </button>
+                    </div>
+
                     <table class="table table-hover">
                       <thead class="table-borderless">
                         <tr class="text-center">
                           <th>Description</th>
                           <th>Type</th>
                           <th>Module Path</th>
-                          <th>Status</th>
+
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -116,24 +120,27 @@
                         <tr class="text-align-center">
                           <td>
                             <input
+                              class="inputTable width-135px"
                               [ngModelOptions]="{ standalone: true }"
                               [(ngModel)]="appModule.moduleGroupDescription"
                             />
                           </td>
                           <td>
                             <input
+                              class="inputTable width-72px"
                               [ngModelOptions]="{ standalone: true }"
                               [(ngModel)]="appModule.moduleGroupType"
                             />
                           </td>
                           <td>
                             <input
+                              class="inputTable width-135px"
                               [ngModelOptions]="{ standalone: true }"
                               [(ngModel)]="appModule.moduleGroupPath"
                             />
                           </td>
-    
-                          <td>
+
+                          <td class="display-none">
                             <input
                               type="checkbox"
                               name="active"
@@ -144,7 +151,7 @@
                           <td class="">
                             <div class="btn-group">
                               <button
-                                (click)="onRemoveSubModule(i,newModuleMaster)"
+                                (click)="onRemoveSubModule(i, newModuleMaster)"
                                 class="btn btn-outline-danger"
                               >
                                 <i class="fas fa-trash"></i>
@@ -154,12 +161,17 @@
                         </tr>
                       </tbody>
                     </table>
-    
-                    <button id="newModule" [hidden]="true" type="submit"></button>
+
+                    <button
+                      id="newModule"
+                      [hidden]="true"
+                      type="submit"
+                    ></button>
                   </form>
-                  <div class="row">
+                  <div class="row mb-3">
                     <div class="col-md-3">
                       <button
+                      (click)="cancelForm(registerform,'')"
                         type="submit"
                         name="button"
                         class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"
@@ -175,20 +187,223 @@
                         class="btn bg-color-color-main border-none botton-shadow btn-primary active"
                         (click)="clickButton('newModule')"
                       >
-                        <i *ngIf="refreshing" class="fa fa-spinner"></i>&nbsp;&nbsp;
+                        <i *ngIf="refreshing" class="fa fa-spinner"></i
+                        >&nbsp;&nbsp;
                         <span *ngIf="refreshing">Loading.....</span>
                         <span *ngIf="!refreshing">Add Module !</span>
                       </button>
                     </div>
                   </div>
-                </div>  
-              </mat-tab>
-              <mat-tab label="Module List">
-                <div class="mb-3 mt-5 row">
-                  <div class="col-md-6"></div>
+                </fieldset>
+                <div *ngIf="title != 'Add New Modules'">
+                  <form
+                    ngForm
+                    class="form-horizontal width-80p"
+                    #editform="ngForm"
+                    (ngSubmit)="onEditModuleSubmit(editform)"
+                  >
+                    <div class="custom-input">
+                      <div class="form-group mb-2">
+                        <label for="firstName">Module Description</label>
+                        <div class="col-sm-10">
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="moduleDescription"
+                            required
+                            [(ngModel)]="editModuleMaster.moduleDescription"
+                            #editModuleDescriptionInput="ngModel"
+                            placeholder="Module Description"
+                          />
+                        </div>
+                      </div>
+                      <span
+                        class="color-red"
+                        *ngIf="
+                          editModuleDescriptionInput.invalid &&
+                          editModuleDescriptionInput.touched
+                        "
+                        >***
+                      </span>
+                    </div>
+                    <div class="custom-input">
+                      <div class="form-group mb-2">
+                        <label for="lastName">Module Type</label>
+                        <div class="col-sm-10">
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="moduleType"
+                            required
+                            [(ngModel)]="editModuleMaster.moduleType"
+                            #editModuleTypeInput="ngModel"
+                            placeholder="Module Type"
+                          />
+                        </div>
+                      </div>
+                      <span
+                        class="color-red"
+                        *ngIf="
+                          editModuleTypeInput.invalid &&
+                          editModuleTypeInput.touched
+                        "
+                        >***
+                      </span>
+                    </div>
+
+                    <div class="custom-input">
+                      <div class="form-group mb-2">
+                        <label for="userName">Module Path</label>
+                        <div class="col-sm-10">
+                          <input
+                            type="text"
+                            name="modulePath"
+                            class="form-control"
+                            required
+                            [(ngModel)]="editModuleMaster.modulePath"
+                            #editModulePathInput="ngModel"
+                            placeholder="Module Path"
+                          />
+                        </div>
+                      </div>
+                      <span
+                        class="color-red"
+                        *ngIf="
+                          editModulePathInput.invalid &&
+                          editModulePathInput.touched
+                        "
+                        >****
+                      </span>
+                    </div>
+
+                    <fieldset class="form-group">
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            name="active"
+                            [(ngModel)]="editModuleMaster.active"
+                            class="form-check-input"
+                          />
+                          Active
+                        </label>
+                      </div>
+                      <div class="form-check disabled">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            name="deleted"
+                            [(ngModel)]="editModuleMaster.deleted"
+                            class="form-check-input"
+                          />
+                          isDeleted
+                        </label>
+                      </div>
+                    </fieldset>
+                    <div class="flex-box justify-flex-flex-end">
+                      <button
+                        type="button"
+                        (click)="addSubModule(editModuleMaster)"
+                        class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+                      >
+                        <i class="fa fa-plus"></i>&nbsp;Sub Module
+                      </button>
+                    </div>
+
+                    <table class="table table-hover">
+                      <thead class="table-borderless">
+                        <tr class="text-center">
+                          <th>Description</th>
+                          <th>Type</th>
+                          <th>Module Path</th>
+
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        *ngFor="
+                          let appModule of editModuleMaster.moduleGroupMaster;
+                          index as i
+                        "
+                      >
+                        <tr class="text-align-center">
+                          <td>
+                            <input
+                              class="inputTable width-135px"
+                              [ngModelOptions]="{ standalone: true }"
+                              [(ngModel)]="appModule.moduleGroupDescription"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="inputTable width-72px"
+                              [ngModelOptions]="{ standalone: true }"
+                              [(ngModel)]="appModule.moduleGroupType"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="inputTable width-135px"
+                              [ngModelOptions]="{ standalone: true }"
+                              [(ngModel)]="appModule.moduleGroupPath"
+                            />
+                          </td>
+
+                          <td class="">
+                            <div class="btn-group">
+                              <button
+                                (click)="onRemoveSubModule(i, editModuleMaster)"
+                                class="btn btn-outline-danger"
+                              >
+                                <i class="fas fa-trash"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <button
+                      id="editModule"
+                      [hidden]="true"
+                      type="submit"
+                    ></button>
+                  </form>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <button
+                      (click)="cancelForm(editform,'update')"
+                        type="submit"
+                        name="button"
+                        class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"
+                      >
+                        <span *ngIf="!refreshing">Cancel</span>
+                      </button>
+                    </div>
+                    <div class="col-sm-4">
+                      <button
+                        type="submit"
+                        [disabled]="editform.invalid || refreshing"
+                        name="button"
+                        class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+                        (click)="clickButton('editModule')"
+                      >
+                        <i *ngIf="refreshing" class="fa fa-spinner"></i
+                        >&nbsp;&nbsp;
+                        <span *ngIf="refreshing">Loading.....</span>
+                        <span *ngIf="!refreshing">Update Module !</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h4 class="mb-2 text-align-center">Modules List</h4>
+                <div class="mt-4 row">
+                  <div class="col-md-3"></div>
                   <form
                     #searchForm="ngForm"
-                    class="col-md-3 form-inline my-2 my-lg-0 justify-content-center"
+                    class="col-md-5 form-inline my-2 my-lg-0 justify-content-center"
                   >
                     <input
                       #searchTerm
@@ -201,14 +416,14 @@
                     />
                   </form>
                   <!-- <button
-                    type="button"
-                    class="col-md-2 btn btn-info"
-                    data-toggle="modal"
-                    data-target="addUserModal"
-                  >
-                    <i class="fa fa-plus"></i>&nbsp;New Module
-                  </button> -->
-                  <div class="col-md-1 btn-group">
+                type="button"
+                class="col-md-2 btn btn-info"
+                data-toggle="modal"
+                data-target="addUserModal"
+              >
+                <i class="fa fa-plus"></i>&nbsp;New Module
+              </button> -->
+                  <div class="col-md-3 btn-group">
                     <button
                       type="button"
                       class="btn btn-info"
@@ -242,12 +457,18 @@
                       <td>
                         {{ appModule?.modulePath }}
                       </td>
-    
+
                       <td>
-                        <div [hidden]="!appModule?.active" class="badge bg-success">
+                        <div
+                          [hidden]="!appModule?.active"
+                          class="badge bg-success"
+                        >
                           Active
                         </div>
-                        <div [hidden]="appModule?.active" class="badge bg-danger">
+                        <div
+                          [hidden]="appModule?.active"
+                          class="badge bg-danger"
+                        >
                           Inactive
                         </div>
                       </td>
@@ -270,202 +491,20 @@
                     </tr>
                   </tbody>
                 </table>
-
-                <!-- Edit Module-->
-                <form
-                ngForm
-                class="form-horizontal width-80p"
-                #editform="ngForm"
-                (ngSubmit)="onEditModuleSubmit(editform)"
-              >
-                <div class="custom-input">
-                  <div class="form-group mb-2">
-                    <label for="firstName">Module Description</label>
-                    <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="moduleDescription"
-                        required
-                        [(ngModel)]="editModuleMaster.moduleDescription"
-                        #editModuleDescriptionInput="ngModel"
-                        placeholder="Module Description"
-                      />
-                    </div>
-                  </div>
-                  <span
-                    class="color-red"
-                    *ngIf="
-                    editModuleDescriptionInput.invalid &&
-                    editModuleDescriptionInput.touched
-                    "
-                    >***
-                  </span>
-                </div>
-                <div class="custom-input">
-                  <div class="form-group mb-2">
-                    <label for="lastName">Module Type</label>
-                    <div class="col-sm-10">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="moduleType"
-                        required
-                        [(ngModel)]="editModuleMaster.moduleType"
-                        #editModuleTypeInput="ngModel"
-                        placeholder="Module Type"
-                      />
-                    </div>
-                  </div>
-                  <span
-                    class="color-red"
-                    *ngIf="
-                    editModuleTypeInput.invalid && editModuleTypeInput.touched
-                    "
-                    >***
-                  </span>
-                </div>
-
-                <div class="custom-input">
-                  <div class="form-group mb-2">
-                    <label for="userName">Module Path</label>
-                    <div class="col-sm-10">
-                      <input
-                        type="text"
-                        name="modulePath"
-                        class="form-control"
-                        required
-                        [(ngModel)]="editModuleMaster.modulePath"
-                        #editModulePathInput="ngModel"
-                        placeholder="Module Path"
-                      />
-                    </div>
-                  </div>
-                  <span
-                    class="color-red"
-                    *ngIf="
-                    editModulePathInput.invalid && editModulePathInput.touched
-                    "
-                    >****
-                  </span>
-                </div>
-
-                <fieldset class="form-group">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input
-                        type="checkbox"
-                        name="active"
-                        [(ngModel)]="editModuleMaster.active"
-                        class="form-check-input"
-                      />
-                      Active
-                    </label>
-                  </div>
-                  <div class="form-check disabled">
-                    <label class="form-check-label">
-                      <input
-                        type="checkbox"
-                        name="deleted"
-                        [(ngModel)]="editModuleMaster.deleted"
-                        class="form-check-input"
-                      />
-                      isDeleted
-                    </label>
-                  </div>
-                </fieldset>
-                <button
-                  type="button"
-                  (click)="addSubModule(editModuleMaster)"
-                  class="btn bg-color-color-main border-none botton-shadow btn-primary active"
-                >
-                  Add Sub Module
-                </button>
-
-                <table class="table table-hover">
-                  <thead class="table-borderless">
-                    <tr class="text-center">
-                      <th>Description</th>
-                      <th>Type</th>
-                      <th>Module Path</th>
-                     
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody
-                    *ngFor="
-                      let appModule of editModuleMaster.moduleGroupMaster;
-                      index as i
-                    "
-                  >
-                    <tr class="text-align-center">
-                      <td>
-                        <input
-                          [ngModelOptions]="{ standalone: true }"
-                          [(ngModel)]="appModule.moduleGroupDescription"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          [ngModelOptions]="{ standalone: true }"
-                          [(ngModel)]="appModule.moduleGroupType"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          [ngModelOptions]="{ standalone: true }"
-                          [(ngModel)]="appModule.moduleGroupPath"
-                        />
-                      </td>
-
-                     
-                      <td class="">
-                        <div class="btn-group">
-                          <button
-                            (click)="onRemoveSubModule(i,editModuleMaster)"
-                            class="btn btn-outline-danger"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <button id="editModule" [hidden]="true" type="submit"></button>
-              </form>
-              <div class="row">
-                <div class="col-md-3">
-                  <button
-                    type="submit"
-                    name="button"
-                    class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"
-                  >
-                    <span *ngIf="!refreshing">Cancel</span>
-                  </button>
-                </div>
-                <div class="col-sm-4">
-                  <button
-                    type="submit"
-                    [disabled]="editform.invalid || refreshing"
-                    name="button"
-                    class="btn bg-color-color-main border-none botton-shadow btn-primary active"
-                    (click)="clickButton('editModule')"
-                  >
-                    <i *ngIf="refreshing" class="fa fa-spinner"></i>&nbsp;&nbsp;
-                    <span *ngIf="refreshing">Loading.....</span>
-                    <span *ngIf="!refreshing">Add Module !</span>
-                  </button>
-                </div>
               </div>
-              </mat-tab>
-             
-            </mat-tab-group>
+            </div>
 
-           
             <!-- Navigatiom-->
-           
+          </div>
+          <div [hidden]="canView">
+            <div
+              class="flex-box justify-content-center align-items-center flex-direction-column"
+            >
+              <h4 class="color-red">Access Denied</h4>
+              <small class="form-text text-muted"
+                >please contact Administration</small
+              >
+            </div>
           </div>
         </div>
       </div>

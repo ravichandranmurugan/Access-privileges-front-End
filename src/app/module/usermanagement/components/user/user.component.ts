@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { Role } from 'src/app/core/enum/role.eum';
 import { UserRoleService } from 'src/app/service/userRole/user-role.service';
 import { UserRole } from 'src/app/model/UserRole';
+import { ModuleMaster } from 'src/app/model/ModuleMaster';
 
 @Component({
   selector: 'app-user',
@@ -35,7 +36,7 @@ export class UserComponent implements OnInit, OnDestroy {
   public editUserFileName: string = '';
   public editUserProfileImage!: File;
  public userRoles:UserRole[] = [];
-
+loggedInUser!:User;
   editUser: User = new User();
   currentUserName: string = '';
   imagePath: any = [];
@@ -72,9 +73,20 @@ export class UserComponent implements OnInit, OnDestroy {
       this.onEditUser(this.user);
     }
   }
+  //cancel form
+  cancelForm(form:NgForm){
+    form.reset();
+    this.modalService.dismissAll()
+   if(this.myRole == 'ROLE_ROOT_ADMIN'){
+    this.getUsers(false,'ROLE_ROOT_ADMIN');
+   }else{
+    this.getUsers(false,'');
+   }
+  }
   /**change title */
-  public getUsers(showNotification: boolean): void {
+  public getUsers(showNotification: boolean,value:string): void {
     debugger;
+   if(value == 'ROLE_ROOT_ADMIN'){
     this.refreshing = true;
     this.subscription.push(
       this.userService.getUsers().subscribe(
@@ -99,6 +111,32 @@ export class UserComponent implements OnInit, OnDestroy {
         }
       )
     );
+   }else{
+    this.refreshing = true;
+    this.subscription.push(
+      this.userService.getUsersByCompany(this.loggedInUser.userRole.companyMaster.companyId).subscribe(
+        (response: User[] | any) => {
+          debugger
+          this.userService.addUsersToLocalCache(response);
+          this.users = response;
+          this.refreshing = false;
+          if (showNotification) {
+            this.sendNotification(
+              NotificationType.SUCCESS,
+              `${response.length} User(s) loades sucessfully`
+            );
+          }
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(
+            NotificationType.ERROR,
+            errorResponse.error.message
+          );
+          this.refreshing = false;
+        }
+      )
+    );
+   }
   }
 
   /**show pop up model on selected user  */
@@ -157,7 +195,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
           debugger
           this.clickButton('closenewuser');
 
-          this.getUsers(false);
+          this.getUsers(false,this.myRole);
           this.fileName = '';
 
           //userForm.reset();
@@ -200,7 +238,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
       this.userService.deleteUser(userId).subscribe(
         (response: CustomHttpResponse | any) => {
           this.sendNotification(NotificationType.SUCCESS, response.message);
-          this.getUsers(true);
+          this.getUsers(true,this.myRole);
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(
@@ -237,7 +275,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
         (response: User | any) => {
           this.clickButton('closeedituser');
           this.showLoading = false;
-          this.getUsers(false);
+          this.getUsers(false,this.myRole);
         //  this.fileName = '';
 
           userForm.reset();
@@ -293,7 +331,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
         (response: HttpEvent<any> | any) => {
           this.clickButton('closenewuser');
 
-          this.getUsers(false);
+          this.getUsers(false,this.myRole);
           this.fileName = '';
 
           //userForm.reset();
@@ -351,8 +389,9 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
   }
 
   /** get UserRoles  */
-  getUserRoles(){
+  getUserRoles(value:string){
     debugger
+   if(value == 'ROLE_ROOT_ADMIN'){
     this.subscription.push(
       this.userRoleService.getUsersRole().subscribe(
         (response: UserRole[] | any) => {
@@ -375,6 +414,30 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
         }
       )
     );
+   }else{
+    this.subscription.push(
+      this.userRoleService.getUsersRoleByCompany(this.loggedInUser.userRole.companyMaster.companyId).subscribe(
+        (response: UserRole[] | any) => {
+         debugger
+          this.userRoles = response;
+         
+          // if (showNotification) {
+          //   this.sendNotification(
+          //     NotificationType.SUCCESS,
+          //     `${response.length} User(s) loades sucessfully`
+          //   );
+          // }
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(
+            NotificationType.ERROR,
+            errorResponse.error
+          );
+          this.refreshing = false;
+        }
+      )
+    );
+   }
   }
   // public get isAdmin(): boolean {
   //   return (
@@ -404,10 +467,93 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
   clickButton(bttonId: string) {
     document.getElementById(bttonId)?.click();
   }
+  moduleAccess:ModuleMaster[] = [];
+  myRole!:string;
+  add!: boolean;
+  edit!: boolean;
+  delete!: boolean;
+  print!: boolean;
+  view!: boolean;
+
+  public get canView(): boolean {
+    if(this.view == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+     return true
+    }else{
+     return false
+    }
+   }
+ //can edit
+ 
+ public get canEdit(): boolean {
+   
+   if(this.edit == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+     return true
+    }else{
+     return false
+    }
+ }
+
+  //can edit
+ 
+  public get canDelete(): boolean {
+   
+    if(this.delete == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+      return true
+     }else{
+      return false
+     }
+  }
+   //can edit
+ 
+ public get canAdd(): boolean {
+   
+  if(this.add == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+    return true
+   }else{
+    return false
+   }
+}
+ //can edit
+ 
+ public get canprint(): boolean {
+   
+  if(this.print == true || this.myRole == 'ROLE_ROOT_ADMIN'){
+    return true
+   }else{
+    return false
+   }
+}
   ngOnInit(): void {
     this.user = this.authenticationService.getUserFromLocalStorageCache();
-    this.getUsers(true);
-    this.getUserRoles();
+
+    this.loggedInUser = this.authenticationService.getUserFromLocalStorageCache();
+    this.moduleAccess = this.loggedInUser.userRole.companyMaster.moduleMaster;
+    this.myRole = this.loggedInUser.userRole.roleDescription;
+    const companyModule = this.moduleAccess.find(
+      (x) => x.moduleDescription == 'User Master'
+    );
+    const companyModuleGroup = companyModule?.moduleGroupMaster.find(
+      (x) => x.moduleGroupDescription == 'Home Page'
+    );
+    const companyPrivilegesAccess = companyModuleGroup?.privilegedAccess.find(
+      (x) => x.userRoleMasterId == this.loggedInUser.userRole.roleId
+    );
+
+    this.add = companyPrivilegesAccess?.adds!;
+    this.delete = companyPrivilegesAccess?.deletes!;
+    this.view = companyPrivilegesAccess?.views!;
+    this.edit = companyPrivilegesAccess?.edits!;
+    this.print = companyPrivilegesAccess?.prints!;
+
+    if(this.myRole == 'ROLE_ROOT_ADMIN'){
+      this.getUsers(true,this.myRole);
+    this.getUserRoles(this.myRole);
+    }
+    else{
+      this.getUsers(true,'');
+      this.getUserRoles('');
+    }
+   
   }
   ngOnDestroy(): void {
     this.subscription.map(x=>x.unsubscribe());

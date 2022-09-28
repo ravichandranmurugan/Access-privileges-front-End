@@ -55,7 +55,7 @@ export class AuthenticationService {
   }
 
   public setloggedInUserName(){
-    debugger
+    
    var a=this.getUserFromLocalStorageCache();
 this.loggedInUserName = a.userName;
   }
@@ -70,7 +70,7 @@ this.loggedInUserName = a.userName;
   public isLoggedIn(): any {
     this.loadToken();
     this.setloggedInUserName();
-    debugger
+    
     if (this.token != null && this.token !== '') {
       if (this.jwtHelper.decodeToken(this.token).sub != null || '') {
         if (!this.jwtHelper.isTokenExpired(this.token)) {

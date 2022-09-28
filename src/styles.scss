@@ -10,11 +10,17 @@ body {
 font-family: 'Roboto', sans-serif;;
   // background:url('./assets/BgImage.jpg');
 }
+.padding-left-5px{
+  padding-left: 5px;
+}
 .text-align-center{
     text-align: center;
 }
 .flex-box {
   display: flex;
+}
+.justify-flex-flex-end{
+  justify-content: flex-end;
 }
 .justify-flex-center {
   justify-content: center;
@@ -31,8 +37,14 @@ font-family: 'Roboto', sans-serif;;
 .flex-gap-5px {
     gap:5px;
   }
+  .flex-gap-7px {
+    gap:7px;
+  }
 .flex-gap-20px {
   gap: 20px;
+}
+.gap-1p{
+  gap: 1%;
 }
 .width-50p {
   width: 50%;
@@ -92,12 +104,19 @@ body {
   top: -7px;
   font-weight: 700;
 }
-
+.display-none{
+  display: none;
+}
 .width-80p{
   width: 80%;
 }
 .width-30p{
   width: 30%;
+}
+.width-72px{
+  width: 72px;
+}.width-135px{
+  width: 135px;
 }
 .height-36p{
   height: 36%;
@@ -110,6 +129,15 @@ body {
 }
 .grid-col-2{
   grid-template-columns: 1fr 1fr;
+}
+.grid-col-3{
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.grid-col-1fr-8px-1fr{
+  grid-template-columns: 1fr 8px 1fr;
+}
+.grid-col-2-50p{
+  grid-template-columns:49.5% 49.5%;
 }
 .grid-col-2-20p-1fr{
   grid-template-columns: 20% 1fr;
@@ -128,3 +156,7 @@ app-root {
 .text-capitalize{
   text-transform: capitalize;
 }
+.inputTable{
+  outline: none;
+  border: none;
+  }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LayoutBottomComponent } from './layout/layout-bottom/layout-bottom.component';
 import { RouterModule } from '@angular/router';
 import { LayoutBottomFooterComponent } from './layout/layout-bottom-footer/layout-bottom-footer.component';
+import { MaterialModule } from '../shared/module/material/material.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { LayoutBottomFooterComponent } from './layout/layout-bottom-footer/layou
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MaterialModule
   ]
 })
 export class CoreModule { }

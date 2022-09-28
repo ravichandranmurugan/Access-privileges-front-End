@@ -17,29 +17,28 @@
       ></a>
       <a
       
-        matTooltip="SEARCH"
+        matTooltip="SIGN-OUT"
         matTooltipPosition="below"
         [ngClass]="{
-          active: activeIcon === 'search',
-          'fa-2x': activehover === 'search'
+          active: activeIcon === 'sign-out',
+          'fa-2x': activehover === 'sign-out'
         }"
-        (click)="iconCilcked('logout')"
-        (mouseover)="iconhover('logout')"
+        (click)="iconCilcked('sign-out')"
+        (mouseover)="iconhover('sign-out')"
         (mouseout)="iconOut()"
         ><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-      <a
-        matTooltip="MESSAGE"
+       <a
+        matTooltip="PROFILE"
         matTooltipPosition="below"
         [ngClass]="{
-          active: activeIcon === 'message',
-          'fa-2x': activehover === 'message'
+          active: activeIcon === 'profile',
+          'fa-2x': activehover === 'profile'
         }"
-        (click)="iconCilcked('message')"
-        (mouseover)="iconhover('message')"
+        (click)="iconCilcked('profile')"
+        (mouseover)="iconhover('profile')"
         (mouseout)="iconOut()"
-        ><i class="fa fa-1x fa-envelope wow fadeIn"></i
-      ></a>
-      <a
+        ><i class="fa-solid fa-user"></i></a>
+     <!-- <a
         matTooltip="WORLD"
         matTooltipPosition="below"
         [ngClass]="{
@@ -63,7 +62,16 @@
         (mouseover)="iconhover('delete')"
         (click)="iconCilcked('delete')"
         ><i class="fa fa-1x fa-trash wow fadeIn"></i
-      ></a>
+      ></a> -->
     </div>
+    <div class="myprofile">
+      <div class="flex-box flex-direction-column">
+       <strong class="grid  grid-col-1fr-8px-1fr  flex-gap-7px"><span>Name</span><span>:</span><span>{{loggedInUser.userName | titlecase }} {{loggedInUser.lastName | titlecase }}</span></strong>
+       <strong class="grid grid-col-1fr-8px-1fr flex-gap-7px"><span>User Role</span><span>:</span><span>{{loggedInUser.userRole.roleDescription| titlecase }}</span></strong>
+       <strong class="grid grid-col-1fr-8px-1fr  flex-gap-7px"><span>Comapny</span><span>:</span><span>{{loggedInUser.companyMaster.companyName| titlecase }}</span></strong>
+      </div>
+  
+   </div>
   </div>
+ 
 </div>

@@ -23,7 +23,10 @@ export class UserRoleService {
     debugger
     return this.http.get<UserRole[]>(`${this.host}/userRole/list`);
   }
-
+  public getUsersRoleByCompany( companyMaster:string): Observable<UserRole[] | HttpErrorResponse> {
+    debugger
+    return this.http.get<UserRole[]>(`${this.host}/userRole/list/${companyMaster}`);
+  }
   public addUserRole(formData: FormData): Observable<UserRole | HttpErrorResponse> {
     return this.http.post<UserRole>(`${this.host}/userRole/add`, formData);
   }

@@ -15,7 +15,7 @@ const notifierDefaultOptions: NotifierOptions = {
   },
   theme: 'material',
   behaviour: {
-    autoHide: 5000,
+    autoHide: 2000,
     onClick: 'hide',
     onMouseover: 'pauseAutoHide',
     showDismissButton: true,
@@ -30,7 +30,7 @@ const notifierDefaultOptions: NotifierOptions = {
     },
     hide: {
       preset: 'fade',
-      speed: 300,
+      speed: 600,
       easing: 'ease',
       offset: 50,
     },
