@@ -1,4 +1,4 @@
-<div class="container ">
+<div class="container">
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card-group mb-0">
@@ -14,18 +14,19 @@
               <mat-tab label="Users">
                 <div class="tab-pane fade show active mt-4" id="users">
                   <div class="mb-3 row">
-                    <div class="col-md-4"></div>
-                    <button
-                    type="button"
-                    class="col-md-2 btn btn-info"
-                    data-toggle="modal"
-                    data-target="addUserModal"
-                    (click)="open(addUserModal)"
-                    [hidden]="!canprint"
-                  >
-                    <i class="fa fa-print"></i>&nbsp;print
-                  </button>
-                    <form
+                    <div class="col-md-9"></div>
+<!--                     
+                      <button
+                        type="button"
+                        class="col-md-2 btn btn-info"
+                        data-toggle="modal"
+                        data-target="addUserModal"
+                        (click)="open(addUserModal)"
+                        [hidden]="!canprint"
+                      >
+                        <i class="fa fa-print"></i>&nbsp;print
+                      </button> -->
+                      <!-- <form
                       #searchForm="ngForm"
                       class="col-md-3 form-inline my-2 my-lg-0 justify-content-center"
                     >
@@ -38,18 +39,9 @@
                         type="search"
                         placeholder="Search Users...."
                       />
-                    </form>
-                    <button
-                      type="button"
-                      class="col-md-2 btn btn-info"
-                      data-toggle="modal"
-                      data-target="addUserModal"
-                      (click)="open(addUserModal)"
-                      [hidden]="!canAdd"
-                    >
-                      <i class="fa fa-plus"></i>&nbsp;New user
-                    </button>
-                    <div class="col-md-1 btn-group">
+                    </form> -->
+
+                      <!-- <div class="col-md-1 btn-group">
                       <button
                         type="button"
                         class="btn btn-info"
@@ -60,7 +52,21 @@
                         <i *ngIf="refreshing" class="fa fa-sync fa-spin"></i
                         ><i *ngIf="!refreshing" class="fa fa-sync"></i>
                       </button>
-                    </div>
+                    </div> -->
+                 
+                    <div class="col-md-1"></div>
+                   
+                      <button
+                        type="button"
+                        class="col-md-2 btn btn-info"
+                        data-toggle="modal"
+                        data-target="addUserModal"
+                        (click)="open(addUserModal);checkUserRoleExist()"
+                        [hidden]="!canAdd"
+                      >
+                        <i class="fa fa-plus"></i>&nbsp;New user
+                      </button>
+                   
                   </div>
                   <table class="table table-hover">
                     <thead class="table-borderless">
@@ -85,7 +91,7 @@
                             alt=""
                           />
                         </td>
-                       
+
                         <td (click)="onSelectUser(appuser, viewUserModal)">
                           {{ appuser?.firstName }}
                         </td>
@@ -115,14 +121,14 @@
                         <td class="">
                           <div class="btn-group">
                             <button
-                            [hidden]="!canEdit"
+                              [hidden]="!canEdit"
                               (click)="onEditUser(appuser); open(editUserModal)"
                               class="btn btn-outline-info"
                             >
                               <i class="fas fa-edit"></i>
                             </button>
                             <button
-                            [hidden]="!canDelete"
+                              [hidden]="!canDelete"
                               (click)="onDeleteUser(appuser.userName)"
                               class="btn btn-outline-danger"
                             >
@@ -421,9 +427,13 @@
             </mat-tab-group>
           </div>
           <div [hidden]="canView">
-            <div class="flex-box justify-content-center align-items-center flex-direction-column">
-              <h4 class="color-red">Access Denied </h4>
-              <small class="form-text text-muted">please contact Administration</small>
+            <div
+              class="flex-box justify-content-center align-items-center flex-direction-column"
+            >
+              <h4 class="color-red">Access Denied</h4>
+              <small class="form-text text-muted"
+                >please contact Administration</small
+              >
             </div>
           </div>
         </div>
@@ -445,75 +455,74 @@
       ></button>
     </div>
     <div class="modal-body">
-      
-        <div class="grid grid-col-2-20p-1fr flex-gap-5px">
-         <div class="flex-box justify-content-center">
+      <div class="grid grid-col-2-20p-1fr flex-gap-5px">
+        <div class="flex-box justify-content-center">
           <img
-          class=" img-fluid img-thumbnail"
-          alt=""
-          src="{{ selectedUser.profileImage }}"
-          height="200"
-          width="250"
-        />
-         </div>
+            class="img-fluid img-thumbnail"
+            alt=""
+            src="{{ selectedUser.profileImage }}"
+            height="200"
+            width="250"
+          />
+        </div>
 
-          <div class="flex-box flex-direction-column">
-            <div class="row">
-              <span class="col-md-4">User Name</span>
-              <span class="col-md-1">:</span>
-              <span class="col-md-7 text-capitalize"> {{ selectedUser.userName }}</span>
-              
-            </div>
-           
-            <div class="row">
-              <span class="col-md-4">E-mail</span>
-              <span class="col-md-1">:</span>
-              <span class="col-md-7 "> {{ selectedUser.email }}</span>
-            </div>
-            <div class="row">
-              <span class="col-md-4">Status</span>
-              <span class="col-md-1">:</span>
-              <span class="col-md-7">
-                <div [hidden]="!selectedUser.active" class="badge bg-success ">
-                  Active
-                </div>
-                <div [hidden]="selectedUser.active" class="badge bg-danger">
-                  Inactive
-                </div></span
-              >
-            </div>
-            <div class="row">
-              <span class="col-md-4">Role</span>
-              <span class="col-md-1">:</span>
-              <span class="col-md-7 text-capitalize"> {{ selectedUser.userRole.roleDescription }}</span>
-            </div>
-            <div class="row">
-              <span class="col-md-4">Account </span>
-              <span class="col-md-1">:</span>
-              <span class="col-md-7">
-                <i
-                  *ngIf="selectedUser.notLocked"
-                  class="fa-solid fa-lock-open color-green"
-                ></i
-                ><i
-                  class="fa-solid fa-lock color-red"
-                  *ngIf="!selectedUser.notLocked"
-                ></i
-              ></span>
-            </div>
+        <div class="flex-box flex-direction-column">
+          <div class="row">
+            <span class="col-md-4">User Name</span>
+            <span class="col-md-1">:</span>
+            <span class="col-md-7 text-capitalize">
+              {{ selectedUser.userName }}</span
+            >
+          </div>
+
+          <div class="row">
+            <span class="col-md-4">E-mail</span>
+            <span class="col-md-1">:</span>
+            <span class="col-md-7"> {{ selectedUser.email }}</span>
+          </div>
+          <div class="row">
+            <span class="col-md-4">Status</span>
+            <span class="col-md-1">:</span>
+            <span class="col-md-7">
+              <div [hidden]="!selectedUser.active" class="badge bg-success">
+                Active
+              </div>
+              <div [hidden]="selectedUser.active" class="badge bg-danger">
+                Inactive
+              </div></span
+            >
+          </div>
+          <div class="row">
+            <span class="col-md-4">Role</span>
+            <span class="col-md-1">:</span>
+            <span class="col-md-7 text-capitalize">
+              {{ selectedUser.userRole.roleDescription }}</span
+            >
+          </div>
+          <div class="row">
+            <span class="col-md-4">Account </span>
+            <span class="col-md-1">:</span>
+            <span class="col-md-7">
+              <i
+                *ngIf="selectedUser.notLocked"
+                class="fa-solid fa-lock-open color-green"
+              ></i
+              ><i
+                class="fa-solid fa-lock color-red"
+                *ngIf="!selectedUser.notLocked"
+              ></i
+            ></span>
           </div>
         </div>
-     
+      </div>
     </div>
   </ng-template>
 
   <!--NEW USER  POP UP MODAL-->
   <ng-template #addUserModal let-modal>
-    <div >
+    <div>
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">
-          New User
-        </h4>
+        <h4 class="modal-title" id="modal-basic-title">New User</h4>
         <button
           type="button"
           class="btn-close"
@@ -572,7 +581,7 @@
                 >***
               </span>
             </div>
-            <input [hidden]="true" name="userRoleId" ngModel>
+            <input [hidden]="true" name="userRoleId" ngModel />
             <div class="custom-input">
               <div class="form-group mb-2">
                 <label for="userName">User Name</label>
@@ -603,6 +612,7 @@
                     class="form-control"
                     required
                     ngModel
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                     name="email"
                     #newEmailInput="ngModel"
                     placeholder="email"
@@ -615,20 +625,24 @@
                 >****
               </span>
             </div>
-            <div class="form-group mb-2 col-sm-10" >
+            <div class="form-group mb-2 col-sm-10">
               <label for="authority">Role</label>
               <select
-              (change)="get($event.target)"
+                (change)="get($event.target)"
                 name="userRole"
                 required
                 [(ngModel)]="editUser.userRole"
                 class="form-control"
               >
-                <option *ngFor="let role of userRoles"  value="{{role.roleDescription}}">{{role.roleDescription}}</option>
-              
+                <option
+                  *ngFor="let role of userRoles"
+                  value="{{ role.roleDescription }}"
+                >
+                  {{ role.roleDescription }}
+                </option>
               </select>
             </div>
-           
+
             <div class="flex-box">
               <div
                 class="flex-box flex-direction-column flex-gap-5px file-upload-icon-input"
@@ -665,7 +679,6 @@
               </div>
             </div>
 
-          
             <fieldset class="form-group">
               <div class="form-check">
                 <label class="form-check-label">
@@ -697,7 +710,7 @@
       <div class="modal-footer">
         <div class="col-md-3">
           <button
-          (click)="cancelForm(registerform)"
+            (click)="cancelForm(registerform)"
             type="submit"
             name="button"
             class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"
@@ -725,8 +738,7 @@
   <ng-template #editUserModal let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">
-        {{ editUser.firstName + " " + editUser.lastName
-        }}
+       Update  {{ editUser.firstName + " " + editUser.lastName | titlecase}}
       </h4>
       <button
         type="button"
@@ -753,7 +765,6 @@
                   class="form-control"
                   name="firstName"
                   required
-                 
                   [(ngModel)]="editUser.firstName"
                   #editFirstNameInput="ngModel"
                   placeholder="first Name"
@@ -775,7 +786,6 @@
                   class="form-control"
                   name="lastName"
                   required
-                  
                   [(ngModel)]="editUser.lastName"
                   #editLastNameInput="ngModel"
                   placeholder="Last Name"
@@ -797,7 +807,6 @@
                   name="userName"
                   class="form-control"
                   required
-                  
                   [(ngModel)]="editUser.userName"
                   #editUsernameInput="ngModel"
                   placeholder="User Name"
@@ -820,7 +829,6 @@
                   required
                   [(ngModel)]="editUser.email"
                   name="email"
-                  
                   #newEmailInput="ngModel"
                   placeholder="email"
                 />
@@ -832,24 +840,25 @@
               >****
             </span>
           </div>
-          <input name="userRoleId" ngModel [hidden]="true">
+          <input name="userRoleId" ngModel [hidden]="true" />
           <div class="form-group mb-2 col-sm-10">
-            <label for="authority"
-              >Role <small ></small
-            ></label>
+            <label for="authority">Role <small></small></label>
             <select
-            (change)="get($event.target)"
+              (change)="get($event.target)"
               name="userRole"
               required
               [(ngModel)]="editUser.userRole.roleDescription"
-             
               class="form-control"
             >
-              <option *ngFor="let role of userRoles" [ngValue]="role.roleDescription">{{role.roleDescription}}</option>
-              
+              <option
+                *ngFor="let role of userRoles"
+                [ngValue]="role.roleDescription"
+              >
+                {{ role.roleDescription }}
+              </option>
             </select>
           </div>
-          
+
           <div class="flex-box">
             <div
               class="flex-box flex-direction-column flex-gap-5px file-upload-icon-input"
@@ -893,7 +902,6 @@
                   name="active"
                   [(ngModel)]="editUser.active"
                   class="form-check-input"
-                 
                 />
                 Active
               </label>
@@ -905,7 +913,6 @@
                   name="notLocked"
                   [(ngModel)]="editUser.notLocked"
                   class="form-check-input"
-                  
                 />
                 unlocked
               </label>
@@ -918,7 +925,7 @@
     <div class="modal-footer">
       <div class="col-md-3">
         <button
-        (click)="cancelForm(editform)"
+          (click)="cancelForm(editform)"
           type="submit"
           name="button"
           class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"
@@ -936,7 +943,7 @@
         >
           <i *ngIf="showLoading" class="fa fa-spinner"></i>&nbsp;&nbsp;
           <span *ngIf="showLoading">Loading.....</span>
-          <span *ngIf="!showLoading">Edit Now !</span>
+          <span *ngIf="!showLoading">Update</span>
         </button>
       </div>
     </div>

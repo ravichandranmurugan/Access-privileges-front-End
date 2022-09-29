@@ -1,0 +1,24 @@
+
+  .font-size-10px{
+    font-size: 10px;
+  }
+.color-228be6{
+    color: #495057;
+    @extend font-size-10px !Optional;
+  }
+  .myprofile{
+    position: absolute;
+    left: 30px;
+    top: 7px;
+    box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.2),
+    inset -4px -4px 6px -1px rgba(255,255,255,0.7),
+    -0.5px -0.5px 0px rgba(255,255,255,1)
+    , 0.5px 0.5px 0px rgba(0,0,0,0.15);
+   font-size: 12px;
+    padding: 1px 15px;
+    border-radius: 7px;
+  }
+  .font-size-20px{
+    font-size: 20px;
+    letter-spacing: 1px;
+  }

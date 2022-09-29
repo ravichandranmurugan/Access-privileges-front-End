@@ -61,7 +61,7 @@ export class ModuleaccessComponent implements OnInit {
     this.edit = companyPrivilegesAccess?.edits!;
     this.print = companyPrivilegesAccess?.prints!;
     if(this.myRole == 'ROLE_ROOT_ADMIN'){
-      this.getAllModuleMaster(true);
+      this.getAllModuleMaster(false);
     }
    
   }
@@ -182,7 +182,7 @@ addSubModule(obj:ModuleMaster){
   onEditModule(value: ModuleMaster) {
     this.editModuleMaster = value;
     this.currentModuleDescription = value.moduleDescription;
-    this.title = `Edit ${value.moduleDescription}`;
+    this.title = `Update `;
   }
   cancelForm(form:NgForm,value:string){
     form.reset();

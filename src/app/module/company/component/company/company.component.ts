@@ -19,7 +19,7 @@ import { ModuleMasterService } from 'src/app/service/Module/module-master.servic
   styleUrls: ['./company.component.scss'],
 })
 export class CompanyComponent implements OnInit {
-  title: string = 'Add Company';
+  title: string = 'Add Organization';
   fileName!: string;
   imagePath: any = [];
   profileImage!: File;
@@ -69,7 +69,7 @@ export class CompanyComponent implements OnInit {
     debugger;
     if (this.myRole == 'ROLE_ROOT_ADMIN') {
       this.getAllModules();
-      this.getCompanys(true);
+      this.getCompanys(false);
     } else {
       this.companyMaster = this.userService.userRole.companyMaster;
       this.companyMaster.moduleMaster.map(x=>{
@@ -109,7 +109,7 @@ public get canEdit(): boolean {
         this.companyMaster.moduleMaster.push(key);
       }
     }
-    if (title === 'Add Company') {
+    if (title === 'Add Organization') {
       const fromData = this.companyService.createUserFormData(
         '',
         this.companyMaster,
@@ -151,7 +151,7 @@ public get canEdit(): boolean {
               });
               debugger;
               this.getCompanys(false);
-              this.title === 'Add Company';
+              this.title === 'Add Organization';
               this.sendNotification(NotificationType.SUCCESS, response.message);
             },
             (errorResponse: HttpErrorResponse) => {
@@ -198,7 +198,7 @@ public get canEdit(): boolean {
   /**on edit company */
   onEditCompany(company: CompanyMaster) {
     debugger;
-    this.title = `Edit Company  ${company.companyName}`;
+    this.title = `Update   ${company.companyName}`;
     this.companyMaster = company;
     if (company.moduleMaster.length == 0) {
       this.modules.map((data) => {
@@ -286,7 +286,7 @@ public get canEdit(): boolean {
 cancelForm(form:NgForm){
   form.reset();
   this.setAllModuleMasterFalseOrTrue(false);
-  this.title = 'Add Company';
+  this.title = 'Add Organization';
   this.getCompanys(false);
 }
   loadExistDataModuleMap(value1: any) {
@@ -314,7 +314,7 @@ cancelForm(form:NgForm){
           this.modules.map((data) => {
             this.moduleMap.set(data, false);
           });
-          this.sendNotification(NotificationType.SUCCESS, response.message);
+          //this.sendNotification(NotificationType.SUCCESS, response.message);
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(

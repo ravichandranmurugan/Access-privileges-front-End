@@ -4,12 +4,14 @@ import { LayoutBottomComponent } from './layout/layout-bottom/layout-bottom.comp
 import { RouterModule } from '@angular/router';
 import { LayoutBottomFooterComponent } from './layout/layout-bottom-footer/layout-bottom-footer.component';
 import { MaterialModule } from '../shared/module/material/material.module';
+import { LayoutBottomHeaderComponent } from './layout/layout-bottom-header/layout-bottom-header.component';
 
 
 @NgModule({
   declarations: [
     LayoutBottomComponent,
-    LayoutBottomFooterComponent
+    LayoutBottomFooterComponent,
+    LayoutBottomHeaderComponent
   ],
   imports: [
     CommonModule,

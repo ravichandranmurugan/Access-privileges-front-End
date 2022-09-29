@@ -1,0 +1,13 @@
+<div class="flex-box justify-content-center align-items-center height-100p">
+    <div >
+        <!-- <img src="../../../../assets//magnifier.png" height="20" width="20"> -->
+       <strong> <span class="color-228be6 font-size-20px">{{loggedInUser.userRole.companyMaster.companyName | titlecase}}</span></strong>
+    </div>
+    <div class="myprofile">
+        <div class="flex-box flex-direction-column">
+         <strong class="grid  grid-col-1fr-8px-1fr  flex-gap-7px"><span class="color-228be6">Name</span><span>:</span><span class="color-228be6">{{loggedInUser.userName | titlecase }} {{loggedInUser.lastName | titlecase }}</span></strong>
+         <strong class="grid grid-col-1fr-8px-1fr flex-gap-7px"><span class="color-228be6"> Role</span><span>:</span><span class="color-228be6">{{loggedInUser.userRole.roleDescription| titlecase }}</span></strong>
+        </div>
+    
+     </div>
+</div>

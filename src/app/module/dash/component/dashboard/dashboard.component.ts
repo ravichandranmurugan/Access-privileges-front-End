@@ -16,9 +16,11 @@ export class DashboardComponent implements OnInit {
   ) {}
   userService: User = new User();
   moduleAccess: ModuleMaster[] = [];
+  myRole:string='';
   ngOnInit(): void {
     this.userService = this.authService.getUserFromLocalStorageCache();
     this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
+    this.myRole = this.userService.userRole.roleDescription
   }
   onclick(value: any) {
     if (value != 'user') {

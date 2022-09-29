@@ -71,7 +71,7 @@
                         </span>
                       </div> -->
 
-                      <fieldset class="form-group">
+                      <!-- <fieldset class="form-group">
                         <div class="form-check">
                           <label class="form-check-label">
                             <input
@@ -84,14 +84,13 @@
                           </label>
                         </div>
                        
-                      </fieldset>
+                      </fieldset> -->
                       <div class="col-md-12 mt-4">
                         <mat-accordion>
                           <div
                             class="mt-2"
                             *ngFor="
-                              let privilegesAcess of this.companyMaster
-                                .moduleMaster
+                              let privilegesAcess of moduleAccess
                             "
                           >
                             <mat-expansion-panel hideToggle>
@@ -103,12 +102,15 @@
                                     <span>{{
                                       privilegesAcess.moduleDescription
                                     }}</span>
-                                    <input
+                                    <!-- <div>
+                                      <input
                                       type="checkbox"
-                                    
+                                    (click)="checkAll(privilegesAcess.moduleId,$event)"
+                                  [value]="checkAl"
                                      
                                       class="form-check-input"
-                                    />
+                                    />Check All
+                                    </div> -->
                                   </div>
                                 </mat-panel-title>
                               </mat-expansion-panel-header>
@@ -239,7 +241,7 @@
                  </fieldset>
                 </form>
               </div>
-              <div>
+              <div [hidden]="!canEdit">
                 <h4 class="flex-box justify-content-center">List of Roles</h4>
 
                 <table class="table table-hover">
@@ -276,9 +278,9 @@
                       <button class="btn btn-outline-info" [hidden]="!canEdit" (click)="onEditRole(app)" >
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button class="btn btn-outline-danger" [hidden]="!canDelete"  >
+                      <!-- <button class="btn btn-outline-danger" [hidden]="!canDelete"  >
                         <i class="fas fa-trash"></i>
-                      </button>
+                      </button> -->
                     </div>
                   </td>
                  </tr>

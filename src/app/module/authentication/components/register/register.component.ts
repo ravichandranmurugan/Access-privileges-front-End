@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
          
           this.sendNotification(
             NotificationType.SUCCESS,
-            `Anew account was created for ${response.firstName} , 
+            `A new account was created for ${response.firstName} , 
             please check your email for password to log in `
           );
                    this.showLoading = false;
@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
   }
   private sendNotification(notificationType: NotificationType, message: string) {
     if (message) {
-      this.notificationService.notify(notificationType, message.toLowerCase());
+      this.notificationService.notify(notificationType, message);
     } else {
       this.notificationService.notify(
         notificationType,

@@ -4,7 +4,7 @@
       <div class="card-group mb-0">
         <div class="card p-2">
           <div class="card-header text-align-center">
-            <h2>Company Masters</h2>
+            <h2>Organization</h2>
           </div>
           <div class="card-body" [hidden]="!canView">
             <!-- Navigatiom-->
@@ -24,7 +24,7 @@
                       <div class="col-md-7">
                         <div class="custom-input">
                           <div class="form-group mb-2">
-                            <label for="firstName">Company Name</label>
+                            <label for="firstName">Organization Name</label>
                             <div class="col-sm-10">
                               <input
                                 type="text"
@@ -33,7 +33,7 @@
                                 required
                                 [(ngModel)]="companyMaster.companyName"
                                 #newCompanyNameInput="ngModel"
-                                placeholder="Company Name"
+                                placeholder="Organization Name"
                               />
                             </div>
                           </div>
@@ -73,7 +73,7 @@
 
                         <div class="custom-input">
                           <div class="form-group mb-2">
-                            <label for="userName">Company Email</label>
+                            <label for="userName">Organization Email</label>
                             <div class="col-sm-10">
                               <input
                                 type="text"
@@ -82,7 +82,7 @@
                                 required
                                 [(ngModel)]="companyMaster.companyEmail"
                                 #newCompanyEmailInput="ngModel"
-                                placeholder="Company Email"
+                                placeholder="Organization Email"
                               />
                             </div>
                           </div>
@@ -98,7 +98,7 @@
 
                         <div class="custom-input">
                           <div class="form-group mb-2">
-                            <label for="email">Company Address</label>
+                            <label for="email">Organization Address</label>
                             <div class="col-sm-10">
                               <input
                                 type="email"
@@ -107,7 +107,7 @@
                                 [(ngModel)]="companyMaster.companyAddress"
                                 name="companyAddress"
                                 #newCompanyAddressInput="ngModel"
-                                placeholder="Company Address"
+                                placeholder="Organization Address"
                               />
                             </div>
                           </div>
@@ -211,7 +211,7 @@
                       </tbody>
                     </table>
 
-                    <div class="flex-box flex-gap-5px">
+                    <div class="flex-box flex-gap-5px mb-3">
                       <button
                       type="button"
                       (click)="cancelForm(companyMasterform)"
@@ -238,12 +238,12 @@
                 </form>
               </div>
               <div *ngIf="this.myRole == 'ROLE_ROOT_ADMIN'">
-                <h4 class="flex-box justify-content-center">List of Company</h4>
+                <h4 class="flex-box justify-content-center">List of Organization</h4>
                 <div class="container">
                   <table class="table table-hover">
                     <thead class="table-borderless">
                       <tr class="text-center">
-                        <th>photo</th>
+                        <!-- <th>photo</th> -->
                         <th>Company Name</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -260,7 +260,7 @@
                           alt=""
                         />
                       </td> -->
-                        <td></td>
+                        
                         <td>{{ appcompany.companyName }}</td>
                         <td>
                           <div
@@ -284,12 +284,12 @@
                             >
                               <i class="fas fa-edit"></i>
                             </button>
-                            <button
+                            <!-- <button
                               class="btn btn-outline-danger"
                               (click)="onDeleteCompany(appcompany.companyId)"
                             >
                               <i class="fas fa-trash"></i>
-                            </button>
+                            </button> -->
                           </div>
                         </td>
                       </tr>

@@ -223,7 +223,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
     message: string
   ) {
     if (message) {
-      this.notificationService.notify(notificationType, message.toLowerCase());
+      this.notificationService.notify(notificationType, message);
     } else {
       this.notificationService.notify(
         notificationType,
@@ -269,6 +269,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
       this.currentUserName,
       userForm.value,
       this.profileImage
+    
     );
     this.subscription.push(
       this.userService.updateUser(formData).subscribe(
@@ -277,7 +278,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
           this.showLoading = false;
           this.getUsers(false,this.myRole);
         //  this.fileName = '';
-
+        this.modalService.dismissAll()
           userForm.reset();
           debugger;
           this.editUser = response;
@@ -387,13 +388,22 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
       'you have benn Sucessfully logged out'
     );
   }
-
+/**checkUserRoleExist */
+checkUserRoleExist(){
+  if(this.userRoles.length == 0) {
+    this.modalService.dismissAll();
+    this.sendNotification(
+      NotificationType.SUCCESS,
+      'Please Add a  Role to Access'
+    );
+  }
+}
   /** get UserRoles  */
   getUserRoles(value:string){
     debugger
    if(value == 'ROLE_ROOT_ADMIN'){
     this.subscription.push(
-      this.userRoleService.getUsersRole().subscribe(
+      this.userRoleService.getUsersRoleByCompany(this.loggedInUser.userRole.companyMaster.companyId).subscribe(
         (response: UserRole[] | any) => {
          debugger
           this.userRoles = response;
@@ -546,11 +556,11 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
     this.print = companyPrivilegesAccess?.prints!;
 
     if(this.myRole == 'ROLE_ROOT_ADMIN'){
-      this.getUsers(true,this.myRole);
+      this.getUsers(false,this.myRole);
     this.getUserRoles(this.myRole);
     }
     else{
-      this.getUsers(true,'');
+      this.getUsers(false,'');
       this.getUserRoles('');
     }
    

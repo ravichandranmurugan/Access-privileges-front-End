@@ -4,7 +4,7 @@
       <div class="card-group mb-0">
         <div class="card p-2">
           <div class="card-header text-align-center">
-            <h2>Module Master</h2>
+            <h2> Organization Modules</h2>
           </div>
           <div class="card-body" [hidden]="!canView">
             <div class="grid grid-col-2-50p gap-1p">
@@ -95,7 +95,7 @@
                       <button
                         type="button"
                         (click)="addSubModule(newModuleMaster)"
-                        class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+                        class="btn bg-color-color-main font-size-10px border-none botton-shadow btn-primary active"
                       >
                         <i class="fa fa-plus"></i>&nbsp;Sub Module
                       </button>
@@ -304,7 +304,7 @@
                       <button
                         type="button"
                         (click)="addSubModule(editModuleMaster)"
-                        class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+                        class="btn bg-color-color-main font-size-10px border-none botton-shadow btn-primary active"
                       >
                         <i class="fa fa-plus"></i>&nbsp;Sub Module
                       </button>
@@ -397,11 +397,11 @@
                   </div>
                 </div>
               </div>
-              <div>
+              <div  [hidden]="!canEdit">
                 <h4 class="mb-2 text-align-center">Modules List</h4>
                 <div class="mt-4 row">
                   <div class="col-md-3"></div>
-                  <form
+                  <!-- <form
                     #searchForm="ngForm"
                     class="col-md-5 form-inline my-2 my-lg-0 justify-content-center"
                   >
@@ -414,7 +414,7 @@
                       type="search"
                       placeholder="Search Users...."
                     />
-                  </form>
+                  </form> -->
                   <!-- <button
                 type="button"
                 class="col-md-2 btn btn-info"
@@ -423,7 +423,7 @@
               >
                 <i class="fa fa-plus"></i>&nbsp;New Module
               </button> -->
-                  <div class="col-md-3 btn-group">
+                  <!-- <div class="col-md-3 btn-group">
                     <button
                       type="button"
                       class="btn btn-info"
@@ -434,7 +434,7 @@
                       <i *ngIf="refreshing" class="fa fa-sync fa-spin"></i
                       ><i *ngIf="!refreshing" class="fa fa-sync"></i>
                     </button>
-                  </div>
+                  </div> -->
                 </div>
                 <table class="table table-hover">
                   <thead class="table-borderless">
@@ -480,12 +480,12 @@
                           >
                             <i class="fas fa-edit"></i>
                           </button>
-                          <button
+                          <!-- <button
                             (click)="onDeleteModule(appModule.moduleId)"
                             class="btn btn-outline-danger"
                           >
                             <i class="fas fa-trash"></i>
-                          </button>
+                          </button> -->
                         </div>
                       </td>
                     </tr>

@@ -38,9 +38,13 @@ export class LoginComponent implements OnInit, OnDestroy {
           const token = response.headers.get(HeaderType.JWT_TOKEN);
           this.authenticationService.saveToken(token);
           this.authenticationService.addUserToLocalStorage(response.body);
-          
-          this.router.navigateByUrl('layout/dash/home');
           this.showLoading = false;
+          this.sendErrorNotification(
+            NotificationType.SUCCESS,
+          ` Welcome to ${response.body.userRole.companyMaster.companyName}`
+          );
+          this.router.navigateByUrl('layout/dash/home');
+         
         },
         (errorResponse: HttpErrorResponse) => {
           
@@ -55,7 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   private sendErrorNotification(notificationType: NotificationType, message: string) {
     if (message) {
-      this.notificationService.notify(notificationType, message.toLowerCase());
+      this.notificationService.notify(notificationType, message);
     } else {
       this.notificationService.notify(
         notificationType,

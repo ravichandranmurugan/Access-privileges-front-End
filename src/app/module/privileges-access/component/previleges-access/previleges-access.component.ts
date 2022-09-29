@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit , OnDestroy } from '@angular/core';
+import { Component, OnInit , OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NotificationType } from 'src/app/core/enum/notification-type-enum';
@@ -31,6 +31,7 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
   ngOnDestroy(): void {
     this.subscription.map(x=>x.unsubscribe());
   }
+checkAl:boolean= false;
   panelOpenState = false;
   title: string = 'Privileges Access';
   roleDescription: string = '';
@@ -78,7 +79,7 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
     this.print = companyPrivilegesAccess?.prints!;
     this.getModulesFromLocalStorage();
     if(this.myRole == 'ROLE_ROOT_ADMIN'){
-      this.loadUserRole(this.myRole);
+      this.loadUserRole("");
      
     }else{
       this.loadUserRole('');
@@ -135,10 +136,10 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
           debugger;
           this.showLoading = false;
           this.userRoleArray = response;
-          this.sendNotification(
-            NotificationType.SUCCESS,
-            ` User Role Loaded Sucessfully`
-          );
+          // this.sendNotification(
+          //   NotificationType.SUCCESS,
+          //   ` User Role Loaded Sucessfully`
+          // );
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(
@@ -156,10 +157,10 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
           debugger;
           this.showLoading = false;
           this.userRoleArray = response;
-          this.sendNotification(
-            NotificationType.SUCCESS,
-            ` User Role Loaded Sucessfully`
-          );
+          // this.sendNotification(
+          //   NotificationType.SUCCESS,
+          //   ` User Role Loaded Sucessfully`
+          // );
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(
@@ -172,6 +173,33 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
     );
   }
   }
+
+//check all
+checkAll(moduleId:string,event:any){
+
+  if(event.target.checked){
+    this.privilegesAccess.map(x=>{
+      if(moduleId == x.moduleMasterId){
+        x.adds=true;
+        x.deletes =true;
+        x.edits =true;
+        x.views = true;
+        x.prints =true;
+      }
+    })
+  }else{
+    this.privilegesAccess.map(x=>{
+      if(moduleId == x.moduleMasterId){
+        x.adds=false;
+        x.deletes =false;
+        x.edits =false;
+        x.views = false;
+        x.prints =false;
+      }
+    })
+  }
+
+}
 
   /**Add New Role  */
   onAddRole(userRoleForm: NgForm, title: string) {
@@ -267,13 +295,13 @@ export class PrevilegesAccessComponent implements OnInit , OnDestroy {
   }
   //**Get User Modules */
   getModulesFromLocalStorage() {
-    debugger
+    
     this.userService =
       this.authenticationService.getUserFromLocalStorageCache();
    // this.userRole = this.userService.userRole;
   if(this.userService.userRole.roleDescription == "ROLE_ROOT_ADMIN"){
     this.companyMaster = this.userService.companyMaster;
-    this.moduleMaster = this.userService.companyMaster.moduleMaster;
+    this.moduleMaster = this.userService.userRole.companyMaster.moduleMaster;
     this.moduleMaster.map((x) => {
       x.moduleGroupMaster.map((data) => {
         const newPrivilegesAccess = new PrivilegedAccess();
@@ -343,10 +371,12 @@ cancelForm(form:NgForm){
 
   /** on edit user Role */
   onEditRole(userRole:UserRole){
+   
     debugger
+    this.checkAl = false
     this.oleRoleDescription = userRole.roleDescription;
     this.delete = userRole.deleted
-    this.title = `Edit ${userRole.roleDescription}`
+    this.title = `Update `
     this.roleDescription = userRole.roleDescription;
     this.privilegesAccess = []; 
     userRole.companyMaster.moduleMaster.map((x) => {
