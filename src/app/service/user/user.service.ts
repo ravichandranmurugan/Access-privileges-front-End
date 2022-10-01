@@ -74,6 +74,7 @@ export class UserService {
     formData.append('lastName', user.lastName);
     formData.append('userName', user.userName);
     formData.append('email', user.email);
+    formData.append('password',user.password)
    // formData.append('userRole',JSON.stringify(user.userRole));
     formData.append('userRoleId',user.userRoleId)
     formData.append('profileImage', profileImage);

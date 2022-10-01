@@ -15,7 +15,8 @@ export class User{
      public notLocked:boolean;
     public userRole:UserRole;
      public userRoleId:string;
-     public companyMaster!:CompanyMaster
+     public companyMaster!:CompanyMaster;
+     public password!:string;
      constructor(){
         this.id = 0;
         this.userId = '';

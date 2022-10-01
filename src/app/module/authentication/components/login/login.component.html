@@ -1,6 +1,6 @@
  <div class="container gg height-100p ">
   <div class="flex-box justify-content-center height-100p align-items-center">
-    <div class="col-md-8">
+    <div   [ngClass]="{'col-md-8': companyMaster.length == 0,'col-md-4': companyMaster.length >= 0}">
       <div class="card-group mb-0">
         <div class="card p-4">
           <div class="card-body">
@@ -55,9 +55,9 @@
                   </button>
                 </div>
                 <div class="col-6 text-right">
-                  <button type="button" name="button" class="btn btn-link text-color-color-main px-0">
+                  <!-- <button type="button" name="button" class="btn btn-link text-color-color-main px-0">
                     Forgot password?
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </form>
@@ -65,7 +65,7 @@
         </div>
         <div
           class="card text-white bg-color-color-main py-5 d-md-down-none"
-          style="width: 44%"
+          style="width: 44%" *ngIf="companyMaster.length == 0"
         >
           <div class="card-body text-center">
             <div>

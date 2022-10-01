@@ -21,6 +21,15 @@ export class DashboardComponent implements OnInit {
     this.userService = this.authService.getUserFromLocalStorageCache();
     this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
     this.myRole = this.userService.userRole.roleDescription
+    const companyModule = this.moduleAccess.find(
+      (x) => x.moduleDescription == 'Organization Module'
+    );
+    const companyModuleGroup = companyModule?.moduleGroupMaster.find(
+      (x) => x.moduleGroupDescription == 'Home Page'
+    );
+    const companyPrivilegesAccess = companyModuleGroup?.privilegedAccess.find(
+      (x) => x.userRoleMasterId == this.userService.userRole.roleId
+    );
   }
   onclick(value: any) {
     if (value != 'user') {

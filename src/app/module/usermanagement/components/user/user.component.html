@@ -81,7 +81,7 @@
                       </tr>
                     </thead>
                     <tbody *ngFor="let appuser of users">
-                      <tr class="text-align-center">
+                      <tr class="text-align-center" *ngIf="appuser.userRole.roleDescription != 'ROLE_ROOT_ADMIN' && appuser.userId != loggedInUser.userId">
                         <td (click)="onSelectUser(appuser, viewUserModal)">
                           <img
                             height="40"
@@ -106,20 +106,20 @@
                         </td>
                         <td (click)="onSelectUser(appuser, viewUserModal)">
                           <div
-                            [hidden]="!appuser?.active"
+                            [hidden]="!appuser?.notLocked"
                             class="badge bg-success"
                           >
                             Active
                           </div>
                           <div
-                            [hidden]="appuser?.active"
+                            [hidden]="appuser?.notLocked"
                             class="badge bg-danger"
                           >
                             Inactive
                           </div>
                         </td>
                         <td class="">
-                          <div class="btn-group">
+                          <div class="btn-group"  *ngIf="appuser.userRole.roleDescription != 'ROLE_ROOT_ADMIN'">
                             <button
                               [hidden]="!canEdit"
                               (click)="onEditUser(appuser); open(editUserModal)"
@@ -129,7 +129,7 @@
                             </button>
                             <button
                               [hidden]="!canDelete"
-                              (click)="onDeleteUser(appuser.userName)"
+                              (click)="onDeleteConfirmnation(appuser.userName) ;open(deleteConfirmation)"
                               class="btn btn-outline-danger"
                             >
                               <i class="fas fa-trash"></i>
@@ -605,6 +605,28 @@
             </div>
             <div class="custom-input">
               <div class="form-group mb-2">
+                <label for="userName">User Password</label>
+                <div class="col-sm-10">
+                  <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    required
+                    ngModel
+                    #newPasswordInput="ngModel"
+                    autocomplete="off"
+                    placeholder="User Password"
+                  />
+                </div>
+              </div>
+              <span
+                class="color-red"
+                *ngIf="newPasswordInput.invalid && newPasswordInput.touched"
+                >****
+              </span>
+            </div>
+            <div class="custom-input">
+              <div class="form-group mb-2">
                 <label for="email">Email</label>
                 <div class="col-sm-10">
                   <input
@@ -631,7 +653,8 @@
                 (change)="get($event.target)"
                 name="userRole"
                 required
-                [(ngModel)]="editUser.userRole"
+               ngModel
+               #newUserRoleInput="ngModel"
                 class="form-control"
               >
                 <option
@@ -673,13 +696,13 @@
                   [ngModelOptions]="{ standalone: true }"
                   [src]="imagePath"
                   [(ngModel)]="imagePath"
-                  class="rounded-circle img-fluid img-thumbnail display-none"
-                  alt="select image"
+                  class="rounded-circle img-fluid img-thumbnail font-Size-10px color-green"
+                  alt="Upload Profile Image"
                 />
               </div>
             </div>
 
-            <fieldset class="form-group">
+            <!-- <fieldset class="form-group">
               <div class="form-check">
                 <label class="form-check-label">
                   <input
@@ -702,7 +725,7 @@
                   unlocked
                 </label>
               </div>
-            </fieldset>
+            </fieldset> -->
             <button id="newuser" [hidden]="true" type="submit"></button>
           </form>
         </div>
@@ -737,9 +760,9 @@
   <!--EDIT USER TEMPLATE-->
   <ng-template #editUserModal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">
+      <!-- <h4 class="modal-title" id="modal-basic-title">
        Update  {{ editUser.firstName + " " + editUser.lastName | titlecase}}
-      </h4>
+      </h4> -->
       <button
         type="button"
         class="btn-close"
@@ -803,7 +826,7 @@
               <label for="userName">User Name</label>
               <div class="col-sm-10">
                 <input
-                  type="text"
+                  type="text" email
                   name="userName"
                   class="form-control"
                   required
@@ -829,6 +852,7 @@
                   required
                   [(ngModel)]="editUser.email"
                   name="email"
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                   #newEmailInput="ngModel"
                   placeholder="email"
                 />
@@ -880,7 +904,7 @@
               <span class="color-red">{{ fileName }}</span>
             </div>
 
-            <div>
+            <div class="flex-box flex-direction-column">
               <img
                 ngDefaultControl
                 height="150"
@@ -891,6 +915,7 @@
                 class="rounded-circle img-fluid img-thumbnail"
                 alt=""
               />
+              <span *ngIf="imagePath"  class="color-red" (click)="clearProfile()" >Remove</span>
             </div>
           </div>
 
@@ -898,6 +923,7 @@
             <div class="form-check">
               <label class="form-check-label">
                 <input
+                hidden
                   type="checkbox"
                   name="active"
                   [(ngModel)]="editUser.active"
@@ -936,7 +962,7 @@
       <div class="col-sm-4">
         <button
           type="submit"
-          [disabled]="editform.invalid || showLoading"
+         
           name="button"
           class="btn bg-color-color-main border-none botton-shadow btn-primary active"
           (click)="onUpdateUser()"
@@ -948,4 +974,45 @@
       </div>
     </div>
   </ng-template>
+
+    <!--NEW USER  POP UP MODAL-->
+    <ng-template #deleteConfirmation let-modal>
+      <div>
+        <div class="modal-header">
+          <h4 class="modal-title justify-content-center" id="modal-basic-title">Do you want to Delete ? </h4>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            #closenewuser
+            (click)="modal.dismiss('Cross click')"
+          ></button>
+        </div>
+       
+        <div class="modal-footer flex-box justify-content-center">
+          <div >
+            <button
+             (click)="onDeleteConfirmationNo()"
+              type="submit"
+              name="button"
+              class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"
+            >
+              <span >No</span>
+            </button>
+          </div>
+          <div>
+            <button
+              type="submit"
+             
+              name="button"
+              class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+              (click)="onDeleteUser(deleteId)"
+            >
+             
+              <span >Yes</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
 </div>

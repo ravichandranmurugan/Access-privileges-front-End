@@ -231,7 +231,13 @@ checkAll(moduleId:string,event:any){
           (response: UserRole | any) => {
             debugger;
             this.showLoading = false;
-          
+            if(this.myRole == 'ROLE_ROOT_ADMIN'){
+              this.loadUserRole("");
+             
+            }else{
+              this.loadUserRole('');
+             
+            }
             this.sendNotification(
               NotificationType.SUCCESS,
               ` User Role Added Sucessfully`
@@ -374,7 +380,7 @@ cancelForm(form:NgForm){
    
     debugger
     this.checkAl = false
-    this.oleRoleDescription = userRole.roleDescription;
+    this.oleRoleDescription = userRole.roleId;
     this.delete = userRole.deleted
     this.title = `Update `
     this.roleDescription = userRole.roleDescription;

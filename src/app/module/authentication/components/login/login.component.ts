@@ -7,6 +7,9 @@ import { Subscription } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { NotificationType } from 'src/app/core/enum/notification-type-enum';
 import {HeaderType } from '../../../../core/enum/header-type-enum'
+import { UserService } from 'src/app/service/user/user.service';
+import { CompanyService } from 'src/app/service/company/company.service';
+import { CompanyMaster } from 'src/app/model/CompanyMaster';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,10 +21,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    private companyService:CompanyService,
 
+  ) {}
+  companyMaster:CompanyMaster[] =[];
   ngOnInit(): void {
+    this.subscription.push(
+      this.companyService.getCompanys().subscribe(
+        (response: HttpResponse<CompanyMaster> | any) => {
+          
+        this.companyMaster = response;
+         
+        },
+        (errorResponse: HttpErrorResponse) => {
+          
+          this.sendErrorNotification(
+            NotificationType.ERROR,
+            errorResponse.error.message
+          );
+          this.showLoading = false;
+        }
+      )
+    );
     if (this.authenticationService.isLoggedIn()) {
       this.router.navigate(['dash/home']);
     } else {

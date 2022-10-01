@@ -51,7 +51,7 @@ export class CompanyComponent implements OnInit {
     this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
     this.myRole = this.userService.userRole.roleDescription;
     const companyModule = this.moduleAccess.find(
-      (x) => x.moduleDescription == 'Company Master'
+      (x) => x.moduleDescription == 'Organization'
     );
     const companyModuleGroup = companyModule?.moduleGroupMaster.find(
       (x) => x.moduleGroupDescription == 'Home Page'
@@ -146,6 +146,7 @@ public get canEdit(): boolean {
               this.modules = response;
               companyForm.reset();
               debugger;
+              this.getCompanys(false);
               this.modules.map((data) => {
                 this.moduleMap.set(data, false);
               });

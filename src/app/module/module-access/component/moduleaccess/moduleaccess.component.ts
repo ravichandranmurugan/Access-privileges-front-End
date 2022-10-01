@@ -46,7 +46,7 @@ export class ModuleaccessComponent implements OnInit {
     this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
     this.myRole = this.userService.userRole.roleDescription;
     const companyModule = this.moduleAccess.find(
-      (x) => x.moduleDescription == 'Module Master'
+      (x) => x.moduleDescription == 'Organization Module'
     );
     const companyModuleGroup = companyModule?.moduleGroupMaster.find(
       (x) => x.moduleGroupDescription == 'Home Page'

@@ -78,7 +78,7 @@ loggedInUser!:User;
     form.reset();
     this.modalService.dismissAll()
    if(this.myRole == 'ROLE_ROOT_ADMIN'){
-    this.getUsers(false,'ROLE_ROOT_ADMIN');
+    this.getUsers(false,'');
    }else{
     this.getUsers(false,'');
    }
@@ -86,7 +86,7 @@ loggedInUser!:User;
   /**change title */
   public getUsers(showNotification: boolean,value:string): void {
     debugger;
-   if(value == 'ROLE_ROOT_ADMIN'){
+   if(value == ' '){
     this.refreshing = true;
     this.subscription.push(
       this.userService.getUsers().subscribe(
@@ -184,6 +184,8 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
     console.log(userForm.value);
     userForm.value.userRole =  this.userRoles.find(x=>x.roleDescription == userForm.value.userRole);
     userForm.value.userRoleId = userForm.value.userRole.roleId;
+    userForm.value.active = true;
+    userForm.value.notLocked = true;
     const formData = this.userService.createUserFormData(
       ' ',
       userForm.value ,
@@ -199,7 +201,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
           this.fileName = '';
 
           //userForm.reset();
-
+          this.modalService.dismissAll()
           this.refreshing = false;
           this.sendNotification(
             NotificationType.SUCCESS,
@@ -231,7 +233,15 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
       );
     }
   }
+  deleteId:string=''
   /**delete user */
+  onDeleteConfirmnation(deleteId:string){
+    this.deleteId = deleteId;
+  }
+  onDeleteConfirmationNo(){
+    this.modalService.dismissAll();
+    this.deleteId = '';
+  }
   onDeleteUser(userId: string) {
     debugger;
     this.subscription.push(
@@ -239,6 +249,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
         (response: CustomHttpResponse | any) => {
           this.sendNotification(NotificationType.SUCCESS, response.message);
           this.getUsers(true,this.myRole);
+          this.modalService.dismissAll()
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(
@@ -299,8 +310,12 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
       )
     );
   }
-
-  /** reset password*/
+/**clearProfile */
+clearProfile(){
+  this.imagePath ='';
+  this.profileImage = this.imagePath;
+}
+/** reset password*/
   onResetPassword(emailForm: NgForm): void {
     this.refreshing = true;
     const emailAddress = emailForm.value['reset-password-email'];
@@ -540,7 +555,7 @@ checkUserRoleExist(){
     this.moduleAccess = this.loggedInUser.userRole.companyMaster.moduleMaster;
     this.myRole = this.loggedInUser.userRole.roleDescription;
     const companyModule = this.moduleAccess.find(
-      (x) => x.moduleDescription == 'User Master'
+      (x) => x.moduleDescription == 'User Management'
     );
     const companyModuleGroup = companyModule?.moduleGroupMaster.find(
       (x) => x.moduleGroupDescription == 'Home Page'
