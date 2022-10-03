@@ -15,7 +15,6 @@ export class CompanyMaster {
 
   public deleted: boolean;
 
-  public active: boolean;
 
   public moduleMaster:ModuleMaster[] = []
   constructor() {
@@ -33,6 +32,6 @@ export class CompanyMaster {
 
     this.deleted = true;
 
-    this.active = true;
+    
   }
 }

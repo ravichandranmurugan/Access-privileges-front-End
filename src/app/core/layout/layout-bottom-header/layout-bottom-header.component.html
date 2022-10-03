@@ -1,14 +1,241 @@
 <div class="flex-box justify-content-center align-items-center height-100p">
-    <div >
-        <!-- <img src="../../../../assets//magnifier.png" height="20" width="20"> -->
-        <h1><span>{{loggedInUser.userRole.companyMaster.companyName | titlecase}}</span></h1>
-       <!-- <strong> <span class="color-228be6 font-size-20px">{{loggedInUser.userRole.companyMaster.companyName | titlecase}}</span></strong> -->
+  <div>
+    <!-- <img src="../../../../assets//magnifier.png" height="20" width="20"> -->
+    <h1>
+      <span>{{
+        loggedInUser.userRole.companyMaster.companyName | titlecase
+      }}</span>
+    </h1>
+    <!-- <strong> <span class="color-228be6 font-size-20px">{{loggedInUser.userRole.companyMaster.companyName | titlecase}}</span></strong> -->
+  </div>
+  <div class="myprofile">
+    <div class="flex-box flex-direction-column">
+      <strong class="grid grid-col-1fr-8px-1fr flex-gap-7px"
+        ><span class="color-228be6">Name</span><span>:</span
+        ><span class="color-228be6"
+          >{{ loggedInUser.userName | titlecase }}
+          {{ loggedInUser.lastName | titlecase }}</span
+        ></strong
+      >
+      <strong class="grid grid-col-1fr-8px-1fr flex-gap-7px"
+        ><span class="color-228be6"> Role</span><span>:</span
+        ><span class="color-228be6">{{
+          loggedInUser.userRole.roleDescription | uppercase
+        }}</span></strong
+      >
     </div>
-    <div class="myprofile">
-        <div class="flex-box flex-direction-column">
-         <strong class="grid  grid-col-1fr-8px-1fr  flex-gap-7px"><span class="color-228be6">Name</span><span>:</span><span class="color-228be6">{{loggedInUser.userName | titlecase }} {{loggedInUser.lastName | titlecase }}</span></strong>
-         <strong class="grid grid-col-1fr-8px-1fr flex-gap-7px"><span class="color-228be6"> Role</span><span>:</span><span class="color-228be6">{{loggedInUser.userRole.roleDescription| uppercase }}</span></strong>
-        </div>
-    
-     </div>
+  </div>
+  <div class="profile">
+    <a
+      matTooltip="PROFILE"
+      matTooltipPosition="below"
+      class="fa-2x"
+      (click)="open(viewProfile)"
+      ><i class="fa-solid fa-user"></i
+    ></a>
+  </div>
 </div>
+<ng-template #viewProfile let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-capitalize" id="modal-basic-title"></h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <form
+        ngForm
+        class="form-horizontal width-80p"
+        #editform="ngForm"
+        (ngSubmit)="updateUser(editform)"
+      >
+        <div class="flex-box justify-flex-space-between">
+          <div
+            class="flex-box flex-direction-column flex-gap-5px file-upload-icon-input"
+          >
+            <img
+              ngDefaultControl
+              height="150"
+              width="150"
+              name="image"
+              [ngModelOptions]="{ standalone: true }"
+              [src]="imagePath"
+              [(ngModel)]="imagePath"
+              class="img-fluid img-thumbnail"
+              alt=""
+            />
+            <span class="color-red">{{ fileName }}</span>
+
+            <input
+              id="fileSelector"
+              type="file"
+              name="profileImage"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="editUser.profileImage"
+              class="custom-file-input"
+              (change)="onProfileImageChange($event)"
+              [hidden]="true"
+              accept="image/*"
+            />
+          </div>
+
+          <div class="flex-box flex-direction-column">
+            <button
+              typ
+              class="btn bg-color-color-main border-none btn-primary active mt-3"
+              (click)="openFileLocal()"
+            >
+              Edit profileImage
+            </button>
+            <button
+              typ
+              class="btn border-none btn-danger active mt-3"
+              (click)="clearProfile()"
+            >
+              Remove profileImage
+            </button>
+          </div>
+        </div>
+        <div class="custom-input mt-3">
+          <div class="form-group mb-2">
+            <label for="firstName">First Name</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                name="firstName"
+                required
+                [(ngModel)]="editUser.firstName"
+                #firstNameInput="ngModel"
+                placeholder="first Name"
+              />
+            </div>
+          </div>
+          <span
+            class="color-red"
+            *ngIf="firstNameInput.invalid && firstNameInput.touched"
+            >***
+          </span>
+        </div>
+        <div class="custom-input">
+          <div class="form-group mb-2">
+            <label for="lastName">Last Name</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                name="lastName"
+                required
+                [(ngModel)]="editUser.lastName"
+                #lastNameInput="ngModel"
+                placeholder="Last Name"
+              />
+            </div>
+          </div>
+          <span
+            class="color-red"
+            *ngIf="lastNameInput.invalid && lastNameInput.touched"
+            >***
+          </span>
+        </div>
+        <div class="custom-input">
+          <div class="form-group mb-2">
+            <label for="userName">User Name</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                name="userName"
+                class="form-control"
+                required
+                [(ngModel)]="editUser.userName"
+                #usernameInput="ngModel"
+                placeholder="User Name"
+              />
+            </div>
+          </div>
+          <span
+            class="color-red"
+            *ngIf="usernameInput.invalid && usernameInput.touched"
+            >****
+          </span>
+        </div>
+        <div class="custom-input">
+          <div class="form-group mb-2">
+            <label for="email">Password </label>
+            <div class="col-sm-10">
+              <input
+                type="password"
+                class="form-control"
+                required
+                [(ngModel)]="editUser.password"
+                name="password"
+                #passwordInput="ngModel"
+                placeholder="password"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <span
+            class="color-red"
+            *ngIf="passwordInput.invalid && passwordInput.touched"
+            >****
+          </span>
+        </div>
+        <div class="custom-input">
+          <div class="form-group mb-2">
+            <label for="email">Email</label>
+            <div class="col-sm-10">
+              <input
+                type="email"
+                class="form-control"
+                required
+                [(ngModel)]="editUser.email"
+                name="email"
+                #emailInput="ngModel"
+                placeholder="email"
+              />
+            </div>
+          </div>
+          <span
+            class="color-red"
+            *ngIf="emailInput.invalid && emailInput.touched"
+            >****
+          </span>
+        </div>
+
+        <!-- <div class="form-group mb-2 col-sm-10" >
+                <label for="authority">Role</label>
+                <select
+                  name="role"
+                  required
+                  [(ngModel)]="editUser.userRole"
+                  class="form-control"
+                >
+                  <option *ngFor="let role of userRoles" value="{{role}}">{{role.roleDescription}}</option>
+                 
+                </select>
+              </div> -->
+
+        <div class="grid grid-col-2">
+          <button id="edituser" [hidden]="true" type="submit"></button>
+          <div>
+            <button
+              type="submit"
+              [disabled]="editform.invalid || showLoading"
+              name="button"
+              class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+            >
+              <i *ngIf="showLoading" class="fa fa-spinner"></i>&nbsp;&nbsp;
+              <span *ngIf="showLoading">Loading.....</span>
+              <span *ngIf="!showLoading">save changes!</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

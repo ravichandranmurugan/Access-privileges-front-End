@@ -276,6 +276,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
     console.log(userForm.value);
     userForm.value.userRole =  this.userRoles.find(x=>x.roleDescription == userForm.value.userRole);
     userForm.value.userRoleId = userForm.value.userRole.roleId;
+    userForm.value.active = true;
     const formData = this.userService.createUserFormData(
       this.currentUserName,
       userForm.value,

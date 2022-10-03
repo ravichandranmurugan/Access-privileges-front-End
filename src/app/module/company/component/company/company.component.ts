@@ -199,7 +199,7 @@ public get canEdit(): boolean {
   /**on edit company */
   onEditCompany(company: CompanyMaster) {
     debugger;
-    this.title = `Update   ${company.companyName}`;
+    this.title = `  `;
     this.companyMaster = company;
     if (company.moduleMaster.length == 0) {
       this.modules.map((data) => {
@@ -226,8 +226,8 @@ public get canEdit(): boolean {
     this.subscription.push(
       this.companyService.deleteCompany(companyId).subscribe(
         (response: CustomHttpResponse | any) => {
-          this.sendNotification(NotificationType.SUCCESS, response.message);
-          this.getCompanys(true);
+          //this.sendNotification(NotificationType.SUCCESS, response.message);
+          this.getCompanys(false);
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(

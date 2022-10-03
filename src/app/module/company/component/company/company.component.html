@@ -27,6 +27,8 @@
                             <label for="firstName">Organization Name</label>
                             <div class="col-sm-10">
                               <input
+                              pattern="[^-.+''=_!@#$%&*,]+"
+                              minlength="5"
                                 type="text"
                                 class="form-control"
                                 name="companyName"
@@ -51,6 +53,8 @@
                             <label for="lastName">Contact Person</label>
                             <div class="col-sm-10">
                               <input
+                              pattern="[^-.+''=_!@#$%&*,]+"
+                              minlength="5"
                                 type="text"
                                 class="form-control"
                                 name="contactPerson"
@@ -102,6 +106,8 @@
                             <label for="email">Organization Address</label>
                             <div class="col-sm-10">
                               <input
+                              pattern="[^-.+''=_!@#$%&*,]+"
+                              minlength="5"
                                 type="email"
                                 class="form-control"
                                 required
@@ -121,8 +127,8 @@
                             >****
                           </span>
                         </div>
-                        <fieldset *ngIf="!canEdit"  class="form-group">
-                          <div class="form-check">
+                        <fieldset *ngIf="myRole == 'ROLE_ROOT_ADMIN'"  class="form-group">
+                          <!-- <div class="form-check">
                             <label class="form-check-label">
                               <input
                                 type="checkbox"
@@ -132,7 +138,7 @@
                               />
                               Active
                             </label>
-                          </div>
+                          </div> -->
                           <div class="form-check disabled">
                             <label class="form-check-label">
                               <input
@@ -245,13 +251,13 @@
                     <thead class="table-borderless">
                       <tr class="text-center">
                         <!-- <th>photo</th> -->
-                        <th>Company Name</th>
+                        <th>Organization</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody *ngFor="let appcompany of companys">
-                      <tr class="text-align-center">
+                      <tr class="text-align-center" *ngIf="appcompany.companyId != userService.userRole.companyMaster.companyId || myRole == 'ROLE_ROOT_ADMIN'">
                         <!-- <td (click)="onSelectUser(appuser, viewUserModal)">
                         <img
                           height="40"
@@ -265,13 +271,13 @@
                         <td>{{ appcompany.companyName }}</td>
                         <td>
                           <div
-                            [hidden]="!appcompany?.active"
+                            [hidden]="appcompany?.deleted"
                             class="badge bg-success"
                           >
                             Active
                           </div>
                           <div
-                            [hidden]="appcompany?.active"
+                            [hidden]="!appcompany?.deleted"
                             class="badge bg-danger"
                           >
                             Inactive
@@ -285,12 +291,12 @@
                             >
                               <i class="fas fa-edit"></i>
                             </button>
-                            <!-- <button
+                           <button [hidden]="appcompany.companyId == userService.userRole.companyMaster.companyId &&  myRole =='ROLE_ROOT_ADMIN' "
                               class="btn btn-outline-danger"
                               (click)="onDeleteCompany(appcompany.companyId)"
                             >
                               <i class="fas fa-trash"></i>
-                            </button> -->
+                            </button> 
                           </div>
                         </td>
                       </tr>
