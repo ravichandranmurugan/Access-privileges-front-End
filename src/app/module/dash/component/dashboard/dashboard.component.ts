@@ -17,9 +17,19 @@ export class DashboardComponent implements OnInit {
   userService: User = new User();
   moduleAccess: ModuleMaster[] = [];
   myRole:string='';
+  enableCompanyRouter:boolean=false;
   ngOnInit(): void {
     this.userService = this.authService.getUserFromLocalStorageCache();
-    this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
+    //this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
+    this.userService.userRole.companyMaster.moduleMaster.map(data=>{
+      const moduleGroup = data.moduleGroupMaster.find(x=>x.moduleGroupDescription == 'Home Page')
+      const companyPrivilegesAccess = moduleGroup?.privilegedAccess.find(
+       (x) => x.userRoleMasterId == this.userService.userRole.roleId
+     );
+     if(companyPrivilegesAccess?.views){
+       this.moduleAccess.push(data);
+     }
+     })
     this.myRole = this.userService.userRole.roleDescription
     const companyModule = this.moduleAccess.find(
       (x) => x.moduleDescription == 'Organization Module'
@@ -30,6 +40,18 @@ export class DashboardComponent implements OnInit {
     const companyPrivilegesAccess = companyModuleGroup?.privilegedAccess.find(
       (x) => x.userRoleMasterId == this.userService.userRole.roleId
     );
+    console.log(this.moduleAccess)
+    let companyModule1 = this.moduleAccess.find(
+      (x) => x.moduleDescription == "Organization"
+    );
+    debugger
+    console.log(companyModule1)
+    if(!companyModule1 && this.myRole == 'ROLE_ROOT_ADMIN'){
+      this.enableCompanyRouter = true
+    }else{
+      this.enableCompanyRouter = false;
+    }
+    
   }
   onclick(value: any) {
     if (value != 'user') {

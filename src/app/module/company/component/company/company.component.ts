@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { data } from 'jquery';
 import { Subscription } from 'rxjs';
 import { NotificationType } from 'src/app/core/enum/notification-type-enum';
@@ -36,11 +37,13 @@ export class CompanyComponent implements OnInit {
   delete!: boolean;
   print!: boolean;
   view!: boolean;
+  deleteId!:string;
   constructor(
     private moduleService: ModuleMasterService,
     private notificationService: NotificationService,
     private companyService: CompanyService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private modalService:NgbModal
   ) {}
   userService: User = new User();
   moduleAccess: ModuleMaster[] = [];
@@ -118,10 +121,11 @@ public get canEdit(): boolean {
 
       this.subscription.push(
         this.companyService.addCompany(this.companyMaster).subscribe(
-          (response: CustomHttpResponse | any) => {
-            this.modules = response;
+          (response: CompanyMaster | any) => {
+            this.modules = response.moduleMaster;
             companyForm.reset();
             debugger;
+            this.moduleMap.clear()
             this.modules.map((data) => {
               this.moduleMap.set(data, false);
             });
@@ -142,18 +146,21 @@ public get canEdit(): boolean {
         this.companyService
           .updateCompany(this.companyMaster, this.currentCompanyEmail)
           .subscribe(
-            (response: CustomHttpResponse | any) => {
-              this.modules = response;
-              companyForm.reset();
+            (response: CompanyMaster | any) => {
+              //  this.modules = response.moduleMaster;
+             // companyForm.reset();
+             // this.moduleMap.clear()
               debugger;
-              this.getCompanys(false);
+              this.onEditCompany(response);
               this.modules.map((data) => {
                 this.moduleMap.set(data, false);
               });
-              debugger;
+            if(this.myRole == 'ROLE_ROOT_ADMIN'){
               this.getCompanys(false);
+            }
+              
               this.title === 'Add Organization';
-              this.sendNotification(NotificationType.SUCCESS, response.message);
+              this.sendNotification(NotificationType.SUCCESS, "Updated Sucessfully");
             },
             (errorResponse: HttpErrorResponse) => {
               this.sendNotification(
@@ -166,7 +173,25 @@ public get canEdit(): boolean {
       );
     }
   }
+//delete
+onDeleteConfirmationNo(){
+this.deleteId = '';
+this.modalService.dismissAll()
+}
 
+deletePopup(value:string){
+  this.deleteId = value
+}
+//open modal
+
+open(content: any) {
+  this.modalService
+    .open(content, { ariaLabelledBy: 'modal-basic-title' })
+    .result.then(
+      (result) => {},
+      (reason) => {}
+    );
+}
   //GET ALL COMPANY
   public getCompanys(showNotification: boolean): void {
     debugger;
@@ -228,6 +253,7 @@ public get canEdit(): boolean {
         (response: CustomHttpResponse | any) => {
           //this.sendNotification(NotificationType.SUCCESS, response.message);
           this.getCompanys(false);
+          this.modalService.dismissAll()
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(
@@ -289,6 +315,7 @@ cancelForm(form:NgForm){
   this.setAllModuleMasterFalseOrTrue(false);
   this.title = 'Add Organization';
   this.getCompanys(false);
+  this.setAllModuleMasterFalseOrTrue(false);
 }
   loadExistDataModuleMap(value1: any) {
     debugger;

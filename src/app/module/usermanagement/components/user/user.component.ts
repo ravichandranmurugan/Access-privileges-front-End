@@ -248,7 +248,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
       this.userService.deleteUser(userId).subscribe(
         (response: CustomHttpResponse | any) => {
           this.sendNotification(NotificationType.SUCCESS, response.message);
-          this.getUsers(true,this.myRole);
+          this.getUsers(false,this.myRole);
           this.modalService.dismissAll()
         },
         (errorResponse: HttpErrorResponse) => {
@@ -265,6 +265,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
   /**edit user */
 
   public onEditUser(editUser: User) {
+    this.fileName =''
     debugger;
     this.editUser = editUser;
     this.currentUserName = editUser.userName;
@@ -277,6 +278,7 @@ this.editUser.userRole = this.userRoles.find(x=>x.roleDescription == s)!;
     userForm.value.userRole =  this.userRoles.find(x=>x.roleDescription == userForm.value.userRole);
     userForm.value.userRoleId = userForm.value.userRole.roleId;
     userForm.value.active = true;
+    userForm.value.password = userForm.value.userName
     const formData = this.userService.createUserFormData(
       this.currentUserName,
       userForm.value,
@@ -343,6 +345,7 @@ clearProfile(){
     const formData = new FormData();
     formData.append('userName', this.user.userName);
     formData.append('profileImage', this.profileImage);
+
     this.subscription.push(
       this.userService.updateProfileImage(formData).subscribe(
         (response: HttpEvent<any> | any) => {
@@ -406,6 +409,9 @@ clearProfile(){
   }
 /**checkUserRoleExist */
 checkUserRoleExist(){
+  this.imagePath = [];
+  this.fileName = "";
+  
   if(this.userRoles.length == 0) {
     this.modalService.dismissAll();
     this.sendNotification(

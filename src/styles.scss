@@ -136,6 +136,9 @@ body {
 .grid-col-1fr-8px-1fr{
   grid-template-columns: 1fr 8px 1fr;
 }
+.grid-col-35px-8px-1fr{
+  grid-template-columns: 35px 8px 1fr;
+}
 .grid-col-2-50p{
   grid-template-columns:49.5% 49.5%;
 }

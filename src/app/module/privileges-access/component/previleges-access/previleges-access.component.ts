@@ -230,6 +230,14 @@ checkAll(moduleId:string,event:any){
         this.userRoleService.addNewRoleWithPrivilegesAccess(this.userRole).subscribe(
           (response: UserRole | any) => {
             debugger;
+
+            if(response == null){
+              this.sendNotification(
+                NotificationType.SUCCESS,
+                `  Role Alredy Exist`
+              );
+            }
+
             this.showLoading = false;
             if(this.myRole == 'ROLE_ROOT_ADMIN'){
               this.loadUserRole("");
@@ -246,7 +254,7 @@ checkAll(moduleId:string,event:any){
           (errorResponse: HttpErrorResponse) => {
             this.sendNotification(
               NotificationType.ERROR,
-              errorResponse.error
+              errorResponse.error.message
             );
             this.showLoading = false;
           }
@@ -267,7 +275,7 @@ checkAll(moduleId:string,event:any){
           (errorResponse: HttpErrorResponse) => {
             this.sendNotification(
               NotificationType.ERROR,
-              errorResponse.error
+              errorResponse.error.message
             );
             this.showLoading = false;
           }

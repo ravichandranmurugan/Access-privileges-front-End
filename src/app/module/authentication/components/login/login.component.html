@@ -1,11 +1,11 @@
- <div class="container gg height-100p ">
+ <div class=" gg height-100p ">
   <div class="flex-box justify-content-center height-100p align-items-center">
     <div   [ngClass]="{'col-md-8': companyMaster.length == 0,'col-md-4': companyMaster.length >= 0}">
       <div class="card-group mb-0">
         <div class="card p-4">
           <div class="card-body">
-            <h1 class="text-color-color-main ">Login</h1>
-            <p class="text-color-color-main">Sign In to your account</p>
+            <h1 class="text-color-color-main flex-box justify-content-center ">Login</h1>
+            <p class="text-color-color-main flex-box justify-content-center">Sign In to your account</p>
             <form #loginform="ngForm" (ngSubmit)="onLogin(loginform.value)">
               <div class="custom-input  flex-box  mb-3">
                <i class="fa fa-user"></i
@@ -46,19 +46,19 @@
               </div>
               
            
-              <div class="row mt-4">
-                <div class="col-6">
+              <div class=" mt-4 flex-box justify-content-center">
+                <div >
                   <button type="submit" [disabled]="loginform.invalid || showLoading" name="button" class="btn bg-color-color-main border-none botton-shadow btn-primary active">
                     <i *ngIf="showLoading" class="fa fa-spinner"></i
                     >&nbsp;&nbsp; <span *ngIf="showLoading">Loading.....</span>
                     <span *ngIf="!showLoading">Log in</span>
                   </button>
                 </div>
-                <div class="col-6 text-right">
-                  <!-- <button type="button" name="button" class="btn btn-link text-color-color-main px-0">
+             <!--    <div class="col-6 text-right">
+                  <button type="button" name="button" class="btn btn-link text-color-color-main px-0">
                     Forgot password?
-                  </button> -->
-                </div>
+                  </button> 
+                </div>-->
               </div>
             </form>
           </div>

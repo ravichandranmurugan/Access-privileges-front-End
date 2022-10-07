@@ -37,6 +37,7 @@ export class LayoutBottomHeaderComponent implements OnInit {
     this.editUser = this.loggedInUser;
     this.currentUserName = this.loggedInUser.userName;
     this.imagePath = this.loggedInUser.profileImage
+    this.editUser.password = this.editUser.userName
   }
   open(content: any) {
     this.modalService
@@ -79,6 +80,7 @@ export class LayoutBottomHeaderComponent implements OnInit {
   }
   clearProfile(){
     this.imagePath ='';
+    this.fileName ='';
     this.profileImage = this.imagePath;
   }
   updateUser(form:NgForm){
@@ -88,7 +90,7 @@ export class LayoutBottomHeaderComponent implements OnInit {
     this.editUser.firstName = value.firstName 
     this.editUser.lastName = value.lastName;
     this.editUser.userName = value.userName;
-    this.editUser.password = value.password;
+    this.editUser.password = value.userName;
     this.editUser.email = value.email;
     this.editUser.userRoleId = this.loggedInUser.userRole.roleId;
     this.editUser.active = true;
@@ -110,6 +112,7 @@ export class LayoutBottomHeaderComponent implements OnInit {
           form.reset();
           debugger;
           this.editUser = response;
+          this.loggedInUser = response;
           this.sendNotification(
             NotificationType.SUCCESS,
             `${response.firstName} ${response.lastName} updated Sucessfully`

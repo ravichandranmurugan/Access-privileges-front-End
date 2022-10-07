@@ -54,7 +54,7 @@
                             <div class="col-sm-10">
                               <input
                               pattern="[^-.+''=_!@#$%&*,]+"
-                              minlength="5"
+                             
                                 type="text"
                                 class="form-control"
                                 name="contactPerson"
@@ -80,7 +80,7 @@
                             <label for="userName">Organization Email</label>
                             <div class="col-sm-10">
                               <input
-                              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                              pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                 type="text"
                                 name="companyEmail"
                                 class="form-control"
@@ -106,7 +106,7 @@
                             <label for="email">Organization Address</label>
                             <div class="col-sm-10">
                               <input
-                              pattern="[^-.+''=_!@#$%&*,]+"
+                              pattern="[^+''=_!@#$%&*]+"
                               minlength="5"
                                 type="email"
                                 class="form-control"
@@ -147,7 +147,7 @@
                                 [(ngModel)]="companyMaster.deleted"
                                 class="form-check-input"
                               />
-                              isDeleted
+                              Locked
                             </label>
                           </div>
                         </fieldset>
@@ -196,10 +196,10 @@
                         <tr class="text-center">
                           <th>Select Module</th>
                           <th>
-                            <input
+                            <!-- <input
                               (change)="onSelectAllModules()"
                               type="checkbox"
-                            />
+                            /> -->
                           </th>
                         </tr>
                       </thead>
@@ -274,13 +274,13 @@
                             [hidden]="appcompany?.deleted"
                             class="badge bg-success"
                           >
-                            Active
+                            unLocked
                           </div>
                           <div
                             [hidden]="!appcompany?.deleted"
                             class="badge bg-danger"
                           >
-                            Inactive
+                            Locked
                           </div>
                         </td>
                         <td class="">
@@ -291,9 +291,9 @@
                             >
                               <i class="fas fa-edit"></i>
                             </button>
-                           <button [hidden]="appcompany.companyId == userService.userRole.companyMaster.companyId &&  myRole =='ROLE_ROOT_ADMIN' "
+                           <button *ngIf="!appcompany?.deleted" [hidden]="appcompany.companyId == userService.userRole.companyMaster.companyId &&  myRole =='ROLE_ROOT_ADMIN' "
                               class="btn btn-outline-danger"
-                              (click)="onDeleteCompany(appcompany.companyId)"
+                              (click)="deletePopup(appcompany.companyId);open(deleteConfirmation)"
                             >
                               <i class="fas fa-trash"></i>
                             </button> 
@@ -330,4 +330,44 @@
       </div>
     </div>
   </div>
+   <!--NEW USER  POP UP MODAL-->
+   <ng-template #deleteConfirmation let-modal>
+    <div>
+      <div class="modal-header">
+        <h4 class="modal-title justify-content-center" id="modal-basic-title">Do you want to Delete ? </h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          #closenewuser
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
+     
+      <div class="modal-footer flex-box justify-content-center">
+        <div >
+          <button
+           (click)="onDeleteConfirmationNo()"
+            type="submit"
+            name="button"
+            class="btn bg-color-color-main border-none color-red botton-shadow btn-primary active"
+          >
+            <span >No</span>
+          </button>
+        </div>
+        <div>
+          <button
+            type="submit"
+           
+            name="button"
+            class="btn bg-color-color-main border-none botton-shadow btn-primary active"
+            (click)="onDeleteCompany(deleteId)"
+          >
+           
+            <span >Yes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
