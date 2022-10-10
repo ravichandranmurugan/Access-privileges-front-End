@@ -13,18 +13,8 @@
         <p><small class="form-text text-muted">check details</small></p>
       </div>
     </div>
-  <!--  <div class="card" *ngIf="moduleAccess.length == 0 || myRole == 'ROLE_ROOT_ADMIN'" (click)="onclick('user')">
-      <img
-        src="../../../../../assets/user.jpg"
-        alt="Avatar"
-        style="width: 100%; height: 70%"
-      />
-      <div class="container-card">
-        <h4><b>User Master</b></h4>
-        <p><small class="form-text text-muted">check details</small></p>
-      </div>
-    </div>
-    <div class="card" *ngIf="moduleAccess.length == 0 || myRole == 'ROLE_ROOT_ADMIN'" (click)="onclick('module')">
+
+    <div class="card" *ngIf="enableCompanyRouter" (click)="onclick('module')">
       <img 
         src="../../../../../assets/module.jpg"
         alt="Avatar"
@@ -35,7 +25,7 @@
         <p><small class="form-text text-muted">check details</small></p>
       </div>
     </div> 
-    <div class="card" *ngIf="moduleAccess.length == 0 && myRole == 'ROLE_ROOT_ADMIN'" (click)="onclick('privilegesAccess')">
+    <!-- <div class="card" *ngIf="moduleAccess.length == 0 && myRole == 'ROLE_ROOT_ADMIN'" (click)="onclick('privilegesAccess')">
       <img 
         src="../../../../../assets/privilegesAccess.jpg"
         alt="Avatar"
@@ -45,9 +35,18 @@
         <h4><b>Privileges Access</b></h4>
         <p><small class="form-text text-muted">check details</small></p>
       </div>
-    </div>-->
-    
-  
+    </div>
+    <div class="card" *ngIf="moduleAccess.length == 0 || myRole == 'ROLE_ROOT_ADMIN'" (click)="onclick('user')">
+      <img
+        src="../../../../../assets/user.jpg"
+        alt="Avatar"
+        style="width: 100%; height: 70%"
+      />
+      <div class="container-card">
+        <h4><b>User Master</b></h4>
+        <p><small class="form-text text-muted">check details</small></p>
+      </div>
+    </div> -->
      
 
 

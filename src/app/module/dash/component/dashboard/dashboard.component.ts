@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   moduleAccess: ModuleMaster[] = [];
   myRole:string='';
   enableCompanyRouter:boolean=false;
+  enableModuleRouter:boolean = false;
   ngOnInit(): void {
     this.userService = this.authService.getUserFromLocalStorageCache();
     //this.moduleAccess = this.userService.userRole.companyMaster.moduleMaster;
@@ -44,12 +45,15 @@ export class DashboardComponent implements OnInit {
     let companyModule1 = this.moduleAccess.find(
       (x) => x.moduleDescription == "Organization"
     );
-    debugger
-    console.log(companyModule1)
     if(!companyModule1 && this.myRole == 'ROLE_ROOT_ADMIN'){
       this.enableCompanyRouter = true
     }else{
       this.enableCompanyRouter = false;
+    }
+    if(!companyModule && this.myRole == 'ROLE_ROOT_ADMIN'){
+      this.enableModuleRouter = true
+    }else{
+      this.enableModuleRouter = false;
     }
     
   }

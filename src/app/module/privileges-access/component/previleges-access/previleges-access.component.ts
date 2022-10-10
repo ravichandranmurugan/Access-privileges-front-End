@@ -225,7 +225,7 @@ checkAll(moduleId:string,event:any){
      this.userRole.companyMaster.moduleMaster = this.moduleMaster
 
      if(title == "Privileges Access"){
-
+      userRoleForm.reset()
        this.subscription.push(
         this.userRoleService.addNewRoleWithPrivilegesAccess(this.userRole).subscribe(
           (response: UserRole | any) => {
@@ -265,6 +265,7 @@ checkAll(moduleId:string,event:any){
         this.userRoleService.updateRoleWithPrivilegesAccess(this.privilegesAccess,this.roleDescription,this.active,this.oleRoleDescription).subscribe(
           (response: UserRole | any) => {
             debugger;
+            userRoleForm.reset()
             this.showLoading = false;
           this.onEditRole(response);
             this.sendNotification(
